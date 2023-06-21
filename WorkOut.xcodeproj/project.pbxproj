@@ -24,6 +24,7 @@
 		FB40F0C32A43135B00C03672 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB40F0C62A43135B00C03672 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FB40F0C82A43135B00C03672 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB40F0D12A43294F00C03672 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,6 +41,7 @@
 		FB40F0AB2A43135900C03672 = {
 			isa = PBXGroup;
 			children = (
+				FB40F0D12A43294F00C03672 /* .swiftlint.yml */,
 				FB40F0B62A43135900C03672 /* WorkOut */,
 				FB40F0B52A43135900C03672 /* Products */,
 			);
@@ -85,6 +87,7 @@
 				FB40F0B02A43135900C03672 /* Sources */,
 				FB40F0B12A43135900C03672 /* Frameworks */,
 				FB40F0B22A43135900C03672 /* Resources */,
+				FB40F0D02A43290700C03672 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -139,6 +142,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FB40F0D02A43290700C03672 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n    swiftlint\nelse \n    echo \"warning: SwiftLint not installed, download form https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FB40F0B02A43135900C03672 /* Sources */ = {
