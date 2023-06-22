@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  WorkOut
 //
-//  Created by jiye Yi on 2023/06/21.
+//  Created by jiye Yi(리지) on 2023/06/21.
 //
 
 import UIKit

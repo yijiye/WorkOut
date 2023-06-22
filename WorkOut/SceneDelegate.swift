@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  WorkOut
 //
-//  Created by jiye Yi on 2023/06/21.
+//  Created by jiye Yi(리지) on 2023/06/21.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: ViewController())
+        let navigationController = UINavigationController(rootViewController: CalendarViewController())
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window
