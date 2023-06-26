@@ -38,4 +38,27 @@ enum Body: CaseIterable, CustomStringConvertible {
             return "다리"
         }
     }
+    
+    var systemImage: String {
+        switch self {
+        case .shoulder:
+            return "figure.strengthtraining.traditional"
+        case .back:
+            return "figure.rower"
+        case .chest:
+            return "figure.mind.and.body"
+        case .abs:
+            return "figure.core.training"
+        case .arm:
+            return "figure.play"
+        case .waist:
+            return "figure.cooldown"
+        case .hamstrings:
+            return "figure.strengthtraining.functional"
+        case .calves:
+            return "figure.highintensity.intervaltraining"
+        case .leg:
+            return "figure.cross.training"
+        }
+    }
 }

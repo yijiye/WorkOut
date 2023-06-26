@@ -8,23 +8,16 @@
 import Foundation
 
 final class WorkoutViewModel {
-    private let shoulder = "figure.strengthtraining.traditional"
-    private let back = "figure.rower"
-    private let chest = "figure.mind.and.body"
-    private let arm = "figure.play"
-    private let abs = "figure.core.training"
-    private let hamstrings = "figure.strengthtraining.functional"
-    private let calves =  "figure.highintensity.intervaltraining"
-    private let waist = "figure.cooldown"
-    private let leg = "figure.cross.training"
-    
-    lazy var workoutDictionary: [String: String] = [shoulder: Body.shoulder.description,
-                                                    back: Body.back.description,
-                                                    chest: Body.chest.description,
-                                                    arm: Body.arm.description,
-                                                    abs: Body.abs.description,
-                                                    leg: Body.leg.description,
-                                                    hamstrings: Body.hamstrings.description,
-                                                    calves: Body.calves.description,
-                                                    waist: Body.waist.description]
+    lazy var sortedWorkoutDictionary = workoutDictionary.sorted { $0.key > $1.key }
+    private let workoutDictionary: [String: String] = [
+        Body.shoulder.systemImage: Body.shoulder.description,
+        Body.back.systemImage: Body.back.description,
+        Body.chest.systemImage: Body.chest.description,
+        Body.arm.systemImage: Body.arm.description,
+        Body.abs.systemImage: Body.abs.description,
+        Body.leg.systemImage: Body.leg.description,
+        Body.hamstrings.systemImage: Body.hamstrings.description,
+        Body.calves.systemImage: Body.calves.description,
+        Body.waist.systemImage: Body.waist.description
+    ]
 }

@@ -14,6 +14,8 @@ final class CircleButtonCell: UICollectionViewCell {
         let button = UIButton()
         button.backgroundColor = .systemGreen.withAlphaComponent(0.2)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.textAlignment = .center
+        button.tintColor = UIColor.systemTeal
         
         return button
     }()
@@ -62,5 +64,7 @@ extension CircleButtonCell {
         let image = UIImage(systemName: systemImage, withConfiguration: imageConfiguration)
         button.setImage(image, for: .normal)
         button.setTitle(title, for: .normal)
+        button.titleLabel?.lineBreakMode = .byCharWrapping
+        button.titleLabel?.numberOfLines = 2
     }
 }

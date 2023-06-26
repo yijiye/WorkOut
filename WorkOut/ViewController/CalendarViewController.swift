@@ -10,6 +10,7 @@ import UIKit
 final class CalendarViewController: UIViewController {
     
     private let calendarViewModel: CalendarViewModel
+    private let workoutViewModel: WorkoutViewModel
     
     private lazy var calendarView: CalendarView = {
         let calendarView = CalendarView(viewModel: calendarViewModel, frame: .zero)
@@ -19,8 +20,9 @@ final class CalendarViewController: UIViewController {
         return calendarView
     }()
     
-    init(calendarViewModel: CalendarViewModel) {
+    init(calendarViewModel: CalendarViewModel, workoutViewModel: WorkoutViewModel) {
         self.calendarViewModel = calendarViewModel
+        self.workoutViewModel = workoutViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,7 +70,7 @@ final class CalendarViewController: UIViewController {
     }
     
     @objc private func goToWorkOutButtonTapped() {
-        let workOutViewController = WorkoutViewController()
+        let workOutViewController = WorkoutViewController(viewModel: workoutViewModel)
         self.navigationController?.pushViewController(workOutViewController, animated: true)
     }
 }
