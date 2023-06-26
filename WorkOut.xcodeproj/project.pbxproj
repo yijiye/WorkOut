@@ -20,6 +20,7 @@
 		FB40F0DF2A442C2100C03672 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0DE2A442C2100C03672 /* CalendarCell.swift */; };
 		FB40F0E32A49461300C03672 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0E22A49461300C03672 /* CalendarViewModel.swift */; };
 		FB40F0E62A4949B300C03672 /* CalendarViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0E52A4949B300C03672 /* CalendarViewDataSource.swift */; };
+		FB40F0E82A49546500C03672 /* WorkOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0E72A49546500C03672 /* WorkOutViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		FB40F0DE2A442C2100C03672 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		FB40F0E22A49461300C03672 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		FB40F0E52A4949B300C03672 /* CalendarViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewDataSource.swift; sourceTree = "<group>"; };
+		FB40F0E72A49546500C03672 /* WorkOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkOutViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				FB40F0BB2A43135900C03672 /* CalendarViewController.swift */,
+				FB40F0E72A49546500C03672 /* WorkOutViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB40F0E82A49546500C03672 /* WorkOutViewController.swift in Sources */,
 				FB40F0BC2A43135900C03672 /* CalendarViewController.swift in Sources */,
 				FB40F0B82A43135900C03672 /* AppDelegate.swift in Sources */,
 				FB40F0E62A4949B300C03672 /* CalendarViewDataSource.swift in Sources */,

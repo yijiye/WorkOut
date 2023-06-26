@@ -32,6 +32,7 @@ final class CalendarViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureNavigationBar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -57,6 +58,18 @@ final class CalendarViewController: UIViewController {
             calendarView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: top),
             calendarView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: bottom)
         ])
+    }
+    
+    private func configureNavigationBar() {
+        let title = "운동시작"
+        let goToWorkOutButton = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(goToWorkOutButtonTapped))
+        
+        navigationItem.rightBarButtonItem = goToWorkOutButton
+    }
+    
+    @objc private func goToWorkOutButtonTapped() {
+        let workOutViewController = WorkOutViewController()
+        self.navigationController?.pushViewController(workOutViewController, animated: true)
     }
 }
 
