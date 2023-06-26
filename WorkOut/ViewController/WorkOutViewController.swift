@@ -9,13 +9,22 @@ import UIKit
 
 final class WorkoutViewController: UIViewController {
     
-    private let viewModel = WorkoutViewModel()
+    private let viewModel: WorkoutViewModel
     
     private lazy var workoutCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         return collectionView
     }()
+    
+    init(viewModel: WorkoutViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +50,7 @@ final class WorkoutViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.2))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 3)
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(30.0))
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(50.0))
         let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         
         let section = NSCollectionLayoutSection(group: group)
@@ -56,15 +65,14 @@ final class WorkoutViewController: UIViewController {
 
 extension WorkoutViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.workoutDictionary.count
+        viewModel.sortedWorkoutDictionary.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CircleButtonCell.identifier, for: indexPath) as? CircleButtonCell else { return UICollectionViewCell() }
         
-        let workout = Array(viewModel.workoutDictionary.keys)[indexPath.item]
-        guard let bodyDescription = viewModel.workoutDictionary[workout] else { return UICollectionViewCell() }
-        cell.configureCell(with: workout, title: bodyDescription)
+        let workout = viewModel.sortedWorkoutDictionary[indexPath.item]
+        cell.configureCell(with: workout.key, title: workout.value)
         
         return cell
     }
@@ -79,3 +87,4 @@ extension WorkoutViewController: UICollectionViewDataSource {
         return header
     }
 }
+
