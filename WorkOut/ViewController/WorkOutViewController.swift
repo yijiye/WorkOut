@@ -33,6 +33,7 @@ final class WorkoutViewController: UIViewController {
         view.addSubview(workoutCollectionView)
 
         configureCollectionView()
+        configureNavigationBar()
     }
 
     private func configureCollectionView() {
@@ -40,6 +41,10 @@ final class WorkoutViewController: UIViewController {
         workoutCollectionView.dataSource = self
         workoutCollectionView.register(CircleButtonCell.self, forCellWithReuseIdentifier: CircleButtonCell.identifier)
         workoutCollectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
+    }
+    
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func createLayout() -> UICollectionViewLayout {
@@ -87,4 +92,3 @@ extension WorkoutViewController: UICollectionViewDataSource {
         return header
     }
 }
-
