@@ -9,14 +9,25 @@ import UIKit
 
 final class CalendarViewController: UIViewController {
     
-    private let calendarView: CalendarView = {
-        let calendarView = CalendarView()
+    private let calendarViewModel: CalendarViewModel
+    
+    private lazy var calendarView: CalendarView = {
+        let calendarView = CalendarView(viewModel: calendarViewModel, frame: .zero)
         calendarView.backgroundColor = .white
         calendarView.register(CalendarCell.self, identifier: CalendarCell.identifier)
         
         return calendarView
     }()
-
+    
+    init(calendarViewModel: CalendarViewModel) {
+        self.calendarViewModel = calendarViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +61,7 @@ final class CalendarViewController: UIViewController {
 }
 
 extension CalendarViewController: CalendarViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, cellDate: CalendarView.CalendarDay?) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, cellDate: CalendarViewModel.CalendarDay?) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as? CalendarCell,
               let cellDate = cellDate else { return UICollectionViewCell() }
         

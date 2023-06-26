@@ -6,16 +6,14 @@
 //
 
 import UIKit
-
-protocol CalendarViewDataSource: AnyObject {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, cellDate: CalendarView.CalendarDay?) -> UICollectionViewCell
-}
+import Combine
 
 final class CalendarView: UIView {
-    
-    typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
-    
+
     weak var calendarViewDataSource: CalendarViewDataSource?
+    
+    private let viewModel: CalendarViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     private let monthLabel: UILabel = {
         let label = UILabel()
@@ -46,16 +44,13 @@ final class CalendarView: UIView {
         return collectionView
     }()
     
-    private let startDay: Weekday = .sun
-    private var indexPathDictionay: [Date: Set<IndexPath>] = [:]
-    private let numberOfItemInCalendar = 12 * 10 * 42
-    private lazy var todayIndexPath = IndexPath(item: numberOfItemInCalendar / 2, section: 0)
-
-    override init(frame: CGRect) {
+    init(viewModel: CalendarViewModel, frame: CGRect) {
+        self.viewModel = viewModel
         super.init(frame: frame)
         
         configureUI()
         configureCollectionView()
+        bind()
     }
     
     required init(coder: NSCoder) {
@@ -92,38 +87,16 @@ final class CalendarView: UIView {
     private func changeMonthLabel(_ point: CGPoint) {
         let contentSize: CGFloat = calendarCollectionView.contentSize.width
         let page: CGFloat = point.x / contentSize
-        
-        guard !(page.isNaN || page.isInfinite),
-              let date: Date = calculateDate(from: IndexPath(item: (Int(page) * 42) + 15, section: 0))?.date else {
-            monthLabel.text = "0000.00"
-            return
-        }
-        
-        monthLabel.text = date.year + "." + date.month
+        viewModel.changeMonthLabel(page)
     }
     
-    private func calculateDate(from indexPath: IndexPath) -> CalendarDay? {
-        let numberOfCellPerPage: Int = 42
-        let todayPage = todayIndexPath.item / numberOfCellPerPage
-        let indexPage = indexPath.item / numberOfCellPerPage
-        
-        guard let today = Date().firstDayOfTheMonth,
-              let indexPathDate = today.month(by: indexPage - todayPage) else { return nil }
-        
-        var indexPathPageFirstDayWeekday = indexPathDate.weekday - 1
-        indexPathPageFirstDayWeekday = indexPathPageFirstDayWeekday < 0 ? 6 : indexPathPageFirstDayWeekday
-        let dist: Int = indexPath.item % numberOfCellPerPage
-        var isContainedInMonth: Bool = false
-        
-        guard let date: Date = indexPathDate.day(by: dist - indexPathPageFirstDayWeekday),
-              let monthDist = date.firstDayOfTheMonth?.month(from: indexPathDate) else { return nil }
-        indexPathDictionay[date, default: []].insert(indexPath)
-        if monthDist == 0 {
-            isContainedInMonth = true
-        }
-        return CalendarDay(date: date, isContainedInMonth: isContainedInMonth)
+    private func bind() {
+        viewModel.dateSubject
+            .sink { [weak self] date in
+                self?.monthLabel.text = date.year + "." + date.month
+            }
+            .store(in: &cancellables)
     }
-            
 }
 
 // MARK: UICollectionViewLayout
@@ -163,13 +136,13 @@ extension CalendarView {
 // MARK: UICollectionVIewDataSource
 extension CalendarView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        numberOfItemInCalendar
+        viewModel.numberOfItemInCalendar
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let dataSource = calendarViewDataSource else { return UICollectionViewCell() }
         
-        return dataSource.collectionView(collectionView, cellForItemAt: indexPath, cellDate: calculateDate(from: indexPath))
+        return dataSource.collectionView(collectionView, cellForItemAt: indexPath, cellDate: viewModel.calculateDate(from: indexPath))
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -184,6 +157,6 @@ extension CalendarView {
     }
     
     func scrollToItem() {
-        calendarCollectionView.scrollToItem(at: todayIndexPath, at: .bottom, animated: false)
+        calendarCollectionView.scrollToItem(at: viewModel.todayIndexPath, at: .bottom, animated: false)
     }
 }
