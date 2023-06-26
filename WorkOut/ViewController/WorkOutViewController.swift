@@ -39,6 +39,7 @@ final class WorkoutViewController: UIViewController {
     private func configureCollectionView() {
         workoutCollectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         workoutCollectionView.dataSource = self
+        workoutCollectionView.delegate = self 
         workoutCollectionView.register(CircleButtonCell.self, forCellWithReuseIdentifier: CircleButtonCell.identifier)
         workoutCollectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
     }
@@ -90,5 +91,13 @@ extension WorkoutViewController: UICollectionViewDataSource {
         header.prepare(text: headerTitle)
         
         return header
+    }
+}
+
+extension WorkoutViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let timerViewController = TimerViewController()
+        timerViewController.modalPresentationStyle = .fullScreen
+        present(timerViewController, animated: true)
     }
 }
