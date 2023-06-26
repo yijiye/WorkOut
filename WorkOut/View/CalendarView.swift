@@ -87,11 +87,11 @@ final class CalendarView: UIView {
     private func changeMonthLabel(_ point: CGPoint) {
         let contentSize: CGFloat = calendarCollectionView.contentSize.width
         let page: CGFloat = point.x / contentSize
-        viewModel.changeMonthLabel(page)
+        viewModel.updateMonth(page)
     }
     
     private func bind() {
-        viewModel.dateSubject
+        viewModel.monthSubject
             .sink { [weak self] date in
                 self?.monthLabel.text = date.year + "." + date.month
             }
@@ -136,7 +136,7 @@ extension CalendarView {
 // MARK: UICollectionVIewDataSource
 extension CalendarView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.numberOfItemInCalendar
+        viewModel.totalCalendarItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
