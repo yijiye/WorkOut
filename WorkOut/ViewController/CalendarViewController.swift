@@ -68,7 +68,7 @@ final class CalendarViewController: UIViewController {
     }
     
     @objc private func goToWorkOutButtonTapped() {
-        let workOutViewController = WorkOutViewController()
+        let workOutViewController = WorkoutViewController()
         self.navigationController?.pushViewController(workOutViewController, animated: true)
     }
 }
