@@ -28,6 +28,8 @@
 		FB5E6D1E2A4A666E00766FCC /* TimerStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5E6D1D2A4A666E00766FCC /* TimerStackView.swift */; };
 		FB5E6D202A4A715800766FCC /* PickerViewControlller.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5E6D1F2A4A715800766FCC /* PickerViewControlller.swift */; };
 		FB5E6D222A4A749500766FCC /* TapGestureRecognizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5E6D212A4A749500766FCC /* TapGestureRecognizable.swift */; };
+		FB5E6D242A4A905000766FCC /* NumberPadStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5E6D232A4A905000766FCC /* NumberPadStackView.swift */; };
+		FB5E6D262A4A91BA00766FCC /* NumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5E6D252A4A91BA00766FCC /* NumberButton.swift */; };
 		FB959B112A498E41003D661F /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB959B102A498E41003D661F /* HeaderView.swift */; };
 		FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +59,8 @@
 		FB5E6D1D2A4A666E00766FCC /* TimerStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerStackView.swift; sourceTree = "<group>"; };
 		FB5E6D1F2A4A715800766FCC /* PickerViewControlller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewControlller.swift; sourceTree = "<group>"; };
 		FB5E6D212A4A749500766FCC /* TapGestureRecognizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapGestureRecognizable.swift; sourceTree = "<group>"; };
+		FB5E6D232A4A905000766FCC /* NumberPadStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadStackView.swift; sourceTree = "<group>"; };
+		FB5E6D252A4A91BA00766FCC /* NumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberButton.swift; sourceTree = "<group>"; };
 		FB959B102A498E41003D661F /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				FB5E6D1D2A4A666E00766FCC /* TimerStackView.swift */,
+				FB5E6D252A4A91BA00766FCC /* NumberButton.swift */,
+				FB5E6D232A4A905000766FCC /* NumberPadStackView.swift */,
 			);
 			path = TimerView;
 			sourceTree = "<group>";
@@ -283,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5E6D262A4A91BA00766FCC /* NumberButton.swift in Sources */,
 				FB40F0E82A49546500C03672 /* WorkoutViewController.swift in Sources */,
 				FB40F0EC2A495E7500C03672 /* Body.swift in Sources */,
 				FB40F0BC2A43135900C03672 /* CalendarViewController.swift in Sources */,
@@ -303,6 +310,7 @@
 				FB40F0DD2A44178300C03672 /* WeekdayStackView.swift in Sources */,
 				FB40F0C22A43135900C03672 /* WorkOut.xcdatamodeld in Sources */,
 				FB40F0D82A440FD500C03672 /* extension + Date.swift in Sources */,
+				FB5E6D242A4A905000766FCC /* NumberPadStackView.swift in Sources */,
 				FB40F0DF2A442C2100C03672 /* CalendarCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
