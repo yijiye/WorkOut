@@ -13,7 +13,8 @@ final class PickerViewModel {
     
     func enterNumber(_ numberButton: String) {
         reset(numberButton)
-
+        delete(numberButton)
+        
         if isMeasurable == true {
             updateInput(numberButton)
         }
@@ -52,6 +53,15 @@ final class PickerViewModel {
     private func reset(_ button: String) {
         if button == NumberPad.reset.description {
             inputLabel = "00:00:00"
+            isMeasurable = true
+        }
+    }
+    
+    private func delete(_ button: String) {
+        if button == NumberPad.delete.description {
+            let components = inputLabel.components(separatedBy: ":").joined()
+            guard let componentsInt = Int(components) else { return }
+            inputLabel = splitTime(componentsInt / 10)
             isMeasurable = true
         }
     }
