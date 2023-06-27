@@ -67,7 +67,6 @@ final class TimerStackView: UIStackView {
     
     private let workoutTimerLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00:00"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.textColor = .systemBlue
         label.textAlignment = .right
@@ -78,7 +77,6 @@ final class TimerStackView: UIStackView {
     
     private let restTimerLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00:00"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.textColor = .systemBlue
         label.textAlignment = .right
@@ -89,7 +87,6 @@ final class TimerStackView: UIStackView {
     
     private let workoutSetCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "1"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.textColor = .systemBlue
         label.textAlignment = .right
@@ -117,9 +114,9 @@ final class TimerStackView: UIStackView {
         addArrangedSubview(restStackView)
         addArrangedSubview(workoutSetStackView)
         
-        let workoutTimerTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(timerButtonTapped))
-        let restTimerTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(timerButtonTapped))
-        let workoutSetCountTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(timerButtonTapped))
+        let workoutTimerTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(workoutTimerButtonTapped))
+        let restTimerTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(restTimerButtonTapped))
+        let workoutSetCountTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(setCountButtonTapped))
        
         workoutTimerLabel.addGestureRecognizer(workoutTimerTapGestureRecognizer)
         restTimerLabel.addGestureRecognizer(restTimerTapGestureRecognizer)
@@ -145,7 +142,29 @@ final class TimerStackView: UIStackView {
         
     }
     
-    @objc private func timerButtonTapped(_ sender: UITapGestureRecognizer) {
-        delegate?.timerButtonTapped()
+    @objc private func workoutTimerButtonTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.timerButtonTapped(.workout)
+    }
+    
+    @objc private func restTimerButtonTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.timerButtonTapped(.rest)
+    }
+    
+    @objc private func setCountButtonTapped(_ sender: UITapGestureRecognizer) {
+        delegate?.timerButtonTapped(.setCount)
+    }
+}
+
+extension TimerStackView {
+    func setUpWorkoutTimerLabel(_ text: String) {
+        workoutTimerLabel.text = text
+    }
+    
+    func setUpRestTimerLabel(_ text: String) {
+        restTimerLabel.text = text
+    }
+    
+    func setUpSetCountLabel(_ text: String) {
+        workoutSetCountLabel.text = text
     }
 }

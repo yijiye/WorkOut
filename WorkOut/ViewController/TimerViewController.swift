@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import Combine
 
 final class TimerViewController: UIViewController {
     
-    private let pickerViewMoel: PickerViewModel
+    private let timerViewModel: TimerViewModel
+    private let pickerViewModel: PickerViewModel
+    
+    private var cancellables = Set<AnyCancellable>()
     
     private let timerStackView: TimerStackView = {
         let stackView = TimerStackView()
@@ -17,8 +21,9 @@ final class TimerViewController: UIViewController {
         return stackView
     }()
     
-    init(pickerViewMoel: PickerViewModel) {
-        self.pickerViewMoel = pickerViewMoel
+    init(timerViewModel: TimerViewModel, pickerViewMoel: PickerViewModel) {
+        self.timerViewModel = timerViewModel
+        self.pickerViewModel = pickerViewMoel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,6 +37,7 @@ final class TimerViewController: UIViewController {
         view.backgroundColor = .white
         configureUI()
         configureNavigationBar()
+        bind()
     }
     
     private func configureUI() {
@@ -54,11 +60,29 @@ final class TimerViewController: UIViewController {
     private func configureNavigationBar() {
         navigationController?.navigationBar.topItem?.title = ""
     }
+    
+    private func bind() {
+        timerViewModel.$workoutTimerLabel
+            .sink { [weak self] label in
+                self?.timerStackView.setUpWorkoutTimerLabel(label)
+            }
+            .store(in: &cancellables)
+        timerViewModel.$restTimerLabel
+            .sink { [weak self] label in
+                self?.timerStackView.setUpRestTimerLabel(label)
+            }
+            .store(in: &cancellables)
+        timerViewModel.$setCountLabel
+            .sink { [weak self] label in
+                self?.timerStackView.setUpSetCountLabel(label)
+            }
+            .store(in: &cancellables)
+    }
 }
 
 extension TimerViewController: TapGestureReconizable {
-    func timerButtonTapped() {
-        let pickerViewController = PickerViewControlller(viewModel: pickerViewMoel)
+    func timerButtonTapped(_ type: TimerType) {
+        let pickerViewController = PickerViewControlller(timerType: type, viewModel: pickerViewModel)
         pickerViewController.modalPresentationStyle = .overFullScreen
         present(pickerViewController, animated: true)
     }

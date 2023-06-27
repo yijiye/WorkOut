@@ -6,5 +6,5 @@
 //
 
 protocol TapGestureReconizable: AnyObject {
-    func timerButtonTapped()
+    func timerButtonTapped(_ type: TimerType)
 }

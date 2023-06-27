@@ -10,6 +10,7 @@ import Combine
 
 final class PickerViewControlller: UIViewController {
     
+    private let timerType: TimerType
     private let viewModel: PickerViewModel
     private var cancellables = Set<AnyCancellable>()
     
@@ -66,7 +67,8 @@ final class PickerViewControlller: UIViewController {
         return button
     }()
     
-    init(viewModel: PickerViewModel) {
+    init(timerType: TimerType, viewModel: PickerViewModel) {
+        self.timerType = timerType
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -79,6 +81,7 @@ final class PickerViewControlller: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .secondaryLabel
         
+        viewModel.type = timerType
         configureUI()
         configureButton()
         bind() 
@@ -125,6 +128,7 @@ final class PickerViewControlller: UIViewController {
     private func configureButton() {
         numberPad.setUpDelegate(self)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        okButton.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
     }
     
     private func bind() {
@@ -162,6 +166,11 @@ extension PickerViewControlller: NumberButtonDelegate {
     }
     
     @objc private func closeButtonTapped() {
+        self.dismiss(animated: true)
+    }
+    
+    @objc private func okButtonTapped() {
+        viewModel.saveLabel(timerType)
         self.dismiss(animated: true)
     }
 }
