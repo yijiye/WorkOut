@@ -97,7 +97,6 @@ extension WorkoutViewController: UICollectionViewDataSource {
 extension WorkoutViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let timerViewController = TimerViewController()
-        timerViewController.modalPresentationStyle = .fullScreen
-        present(timerViewController, animated: true)
+        self.navigationController?.pushViewController(timerViewController, animated: true)
     }
 }
