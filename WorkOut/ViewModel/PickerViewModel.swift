@@ -11,20 +11,26 @@ final class PickerViewModel {
     @Published var inputLabel: String = "00:00:00"
     @Published var isMeasurable: Bool = true
     
-    func enterNumber(_ numberString: String) {
+    func enterNumber(_ numberButton: String) {
+        reset(numberButton)
+
         if isMeasurable == true {
-            guard let number = Int(numberString) else { return }
-            var components = inputLabel.components(separatedBy: ":").joined()
-            let initialValue = "000000"
-            
-            if components != initialValue {
-                components += numberString
-                checkTime(components)
-                guard let componentsInt = Int(components) else { return }
-                inputLabel = splitTime(componentsInt)
-            } else {
-                inputLabel = splitTime(number)
-            }
+            updateInput(numberButton)
+        }
+    }
+    
+    private func updateInput(_ numberButton: String) {
+        guard let number = Int(numberButton) else { return }
+        var components = inputLabel.components(separatedBy: ":").joined()
+        let initialValue = "000000"
+        
+        if components != initialValue {
+            components += numberButton
+            checkTime(components)
+            guard let componentsInt = Int(components) else { return }
+            inputLabel = splitTime(componentsInt)
+        } else {
+            inputLabel = splitTime(number)
         }
     }
     
@@ -40,6 +46,13 @@ final class PickerViewModel {
         let zeroCount = time.filter { String($0) == NumberPad.zero.description }.count
         if zeroCount == 1 {
             isMeasurable = false
+        }
+    }
+    
+    private func reset(_ button: String) {
+        if button == NumberPad.reset.description {
+            inputLabel = "00:00:00"
+            isMeasurable = true
         }
     }
 }
