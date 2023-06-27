@@ -9,6 +9,8 @@ import UIKit
 
 final class NumberStackView: UIStackView {
     
+    weak var delegate: NumberButtonDelegate?
+    
     private let firstTitle: String
     private let secondTitle: String
     private let thirdTitle: String
@@ -52,5 +54,16 @@ final class NumberStackView: UIStackView {
         addArrangedSubview(firstButton)
         addArrangedSubview(secondButton)
         addArrangedSubview(thirdButton)
+        
+        firstButton.addTarget(self, action: #selector(numberButtonTapped), for: .touchUpInside)
+        secondButton.addTarget(self, action: #selector(numberButtonTapped), for: .touchUpInside)
+        thirdButton.addTarget(self, action: #selector(numberButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func numberButtonTapped(_ sender: UIButton) {
+        if let numberButton = sender as? NumberButton {
+            guard let number = numberButton.titleLabel?.text else { return }
+            delegate?.buttonTapped(number)
+        }
     }
 }

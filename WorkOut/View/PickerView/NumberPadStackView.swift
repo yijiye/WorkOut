@@ -20,7 +20,7 @@ final class NumberPadStackView: UIStackView {
         return stackView
     }()
     
-    private let secondLineStackView: UIStackView = {
+    private let secondLineStackView: NumberStackView = {
         let stackView = NumberStackView(
             firstTitle: NumberPad.four.description,
             secondTitle: NumberPad.five.description,
@@ -31,7 +31,7 @@ final class NumberPadStackView: UIStackView {
         return stackView
     }()
     
-    private let thirdLineStackView: UIStackView = {
+    private let thirdLineStackView: NumberStackView = {
         let stackView = NumberStackView(
             firstTitle: NumberPad.seven.description,
             secondTitle: NumberPad.eight.description,
@@ -42,7 +42,7 @@ final class NumberPadStackView: UIStackView {
         return stackView
     }()
     
-    private let finalLineStackView: UIStackView = {
+    private let finalLineStackView: NumberStackView = {
         let stackView = NumberStackView(
             firstTitle: NumberPad.reset.description,
             secondTitle: NumberPad.zero.description,
@@ -72,5 +72,12 @@ final class NumberPadStackView: UIStackView {
         addArrangedSubview(secondLineStackView)
         addArrangedSubview(thirdLineStackView)
         addArrangedSubview(finalLineStackView)
+    }
+    
+    func setUpDelegate(_ self: UIViewController) {
+        firstLineStackView.delegate = self as? any NumberButtonDelegate
+        secondLineStackView.delegate = self as? any NumberButtonDelegate
+        thirdLineStackView.delegate = self as? any NumberButtonDelegate
+        finalLineStackView.delegate = self as? any NumberButtonDelegate
     }
 }

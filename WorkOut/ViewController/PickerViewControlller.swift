@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 final class PickerViewControlller: UIViewController {
+    
+    private let viewModel = PickerViewModel()
+    private var cancellables = Set<AnyCancellable>()
     
     private let timerView: UIView = {
         let stackView = UIView()
@@ -42,7 +46,6 @@ final class PickerViewControlller: UIViewController {
         label.textColor = .systemBlue
         label.textAlignment = .center
         label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.text = "00:00:00"
         
         return label
     }()
@@ -69,6 +72,7 @@ final class PickerViewControlller: UIViewController {
         
         configureUI()
         configureButton()
+        bind() 
     }
 
     private func configureUI() {
@@ -110,11 +114,44 @@ final class PickerViewControlller: UIViewController {
     }
     
     private func configureButton() {
+        numberPad.setUpDelegate(self)
         closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+    }
+    
+    private func bind() {
+        viewModel.$inputLabel
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] label in
+                self?.inputLabel.text = label
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isMeasurable
+            .receive(on: DispatchQueue.main)
+            .filter { $0 == false }
+            .sink { [weak self] _ in
+                self?.showAlert()
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func showAlert() {
+        let title = "😰 \n너무 긴 운동시간은 몸에 해로워요! "
+        let message = "타이머를 설정할 수 있는 범위를 벗어났습니다."
+        let okTitle = "OK"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: okTitle, style: .default)
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }
 
-extension PickerViewControlller {
+extension PickerViewControlller: NumberButtonDelegate {
+    func buttonTapped(_ number: String) {
+        viewModel.enterNumber(number)
+    }
+    
     @objc private func closeButtonTapped() {
         self.dismiss(animated: true)
     }
