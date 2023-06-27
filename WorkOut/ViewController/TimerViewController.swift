@@ -24,6 +24,7 @@ final class TimerViewController: UIViewController {
     }
     
     private func configureUI() {
+        timerStackView.delegate = self
         view.addSubview(timerStackView)
         
         let safeArea = view.safeAreaLayoutGuide
@@ -41,5 +42,13 @@ final class TimerViewController: UIViewController {
 
     private func configureNavigationBar() {
         navigationController?.navigationBar.topItem?.title = ""
+    }
+}
+
+extension TimerViewController: TapGestureReconizable {
+    func timerButtonTapped() {
+        let pickerViewController = PickerViewControlller()
+        pickerViewController.modalPresentationStyle = .overFullScreen
+        present(pickerViewController, animated: true)
     }
 }
