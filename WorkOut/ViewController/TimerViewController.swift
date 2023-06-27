@@ -9,11 +9,22 @@ import UIKit
 
 final class TimerViewController: UIViewController {
     
+    private let pickerViewMoel: PickerViewModel
+    
     private let timerStackView: TimerStackView = {
         let stackView = TimerStackView()
         
         return stackView
     }()
+    
+    init(pickerViewMoel: PickerViewModel) {
+        self.pickerViewMoel = pickerViewMoel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +58,7 @@ final class TimerViewController: UIViewController {
 
 extension TimerViewController: TapGestureReconizable {
     func timerButtonTapped() {
-        let pickerViewController = PickerViewControlller()
+        let pickerViewController = PickerViewControlller(viewModel: pickerViewMoel)
         pickerViewController.modalPresentationStyle = .overFullScreen
         present(pickerViewController, animated: true)
     }

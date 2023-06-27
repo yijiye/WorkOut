@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let calendarViewModel = CalendarViewModel()
         let workoutViewModel = WorkoutViewModel()
-        let navigationController = UINavigationController(rootViewController: CalendarViewController(calendarViewModel: calendarViewModel, workoutViewModel: workoutViewModel))
+        let pickerViewModel = PickerViewModel()
+        let navigationController = UINavigationController(rootViewController: CalendarViewController(calendarViewModel: calendarViewModel, workoutViewModel: workoutViewModel, pickerViewModel: pickerViewModel))
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window

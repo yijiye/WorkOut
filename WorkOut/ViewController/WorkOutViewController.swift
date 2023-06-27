@@ -10,6 +10,7 @@ import UIKit
 final class WorkoutViewController: UIViewController {
     
     private let viewModel: WorkoutViewModel
+    private let pickerViewModel: PickerViewModel
     
     private lazy var workoutCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -17,8 +18,9 @@ final class WorkoutViewController: UIViewController {
         return collectionView
     }()
     
-    init(viewModel: WorkoutViewModel) {
+    init(viewModel: WorkoutViewModel, pickerViewModel: PickerViewModel) {
         self.viewModel = viewModel
+        self.pickerViewModel = pickerViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -96,7 +98,7 @@ extension WorkoutViewController: UICollectionViewDataSource {
 
 extension WorkoutViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let timerViewController = TimerViewController()
+        let timerViewController = TimerViewController(pickerViewMoel: pickerViewModel)
         self.navigationController?.pushViewController(timerViewController, animated: true)
     }
 }
