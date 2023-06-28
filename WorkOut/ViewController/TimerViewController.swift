@@ -30,15 +30,6 @@ final class TimerViewController: UIViewController {
         return button
     }()
     
-    private let countdownLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 100, weight: .bold)
-        label.textColor = .black
-        label.isHidden = true
-        
-        return label
-    }()
-    
     init(timerViewModel: TimerViewModel, pickerViewMoel: PickerViewModel) {
         self.timerViewModel = timerViewModel
         self.pickerViewModel = pickerViewMoel
@@ -63,7 +54,6 @@ final class TimerViewController: UIViewController {
         timerStackView.delegate = self
         view.addSubview(timerStackView)
         view.addSubview(startButton)
-        view.addSubview(countdownLabel)
         
         let safeArea = view.safeAreaLayoutGuide
         let top: CGFloat = 20
@@ -72,7 +62,7 @@ final class TimerViewController: UIViewController {
         
         timerStackView.translatesAutoresizingMaskIntoConstraints = false
         startButton.translatesAutoresizingMaskIntoConstraints = false
-        countdownLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             timerStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
             timerStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: trailing),
@@ -80,10 +70,7 @@ final class TimerViewController: UIViewController {
             
             startButton.topAnchor.constraint(equalTo: timerStackView.bottomAnchor, constant: top),
             startButton.leadingAnchor.constraint(equalTo: timerStackView.leadingAnchor),
-            startButton.trailingAnchor.constraint(equalTo: timerStackView.trailingAnchor),
-
-            countdownLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            countdownLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
+            startButton.trailingAnchor.constraint(equalTo: timerStackView.trailingAnchor)
         ])
     }
 
@@ -111,17 +98,14 @@ final class TimerViewController: UIViewController {
                 self?.timerStackView.setUpSetCountLabel(label)
             }
             .store(in: &cancellables)
-        timerViewModel.countdownLabel
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] countdown in
-                self?.countdownLabel.text = countdown
-            }
-            .store(in: &cancellables)
+        
     }
     
     @objc private func startButtonTapped() {
-        countdownLabel.isHidden = false
-        timerViewModel.countDown()
+        let progressViewModel = ProgressViewModel()
+        let progressViewController = ProgressViewController(viewModel: progressViewModel)
+        progressViewController.modalPresentationStyle = .fullScreen
+        present(progressViewController, animated: true)
     }
     
     deinit {
