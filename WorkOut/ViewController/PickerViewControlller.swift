@@ -158,6 +158,10 @@ final class PickerViewControlller: UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true)
     }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+    }
 }
 
 extension PickerViewControlller: NumberButtonDelegate {

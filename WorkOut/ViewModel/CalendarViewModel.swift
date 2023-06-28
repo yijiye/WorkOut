@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 final class CalendarViewModel {
-    var monthSubject = PassthroughSubject<Date, Never>()
+    let monthSubject = PassthroughSubject<Date, Never>()
     
     typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
     

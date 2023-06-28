@@ -21,6 +21,24 @@ final class TimerViewController: UIViewController {
         return stackView
     }()
     
+    private let startButton: UIButton = {
+        let button = UIButton()
+        let imageConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold)
+        let image = UIImage(systemName: "play.fill", withConfiguration: imageConfiguration)
+        button.setImage(image, for: .normal)
+        
+        return button
+    }()
+    
+    private let countdownLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 100, weight: .bold)
+        label.textColor = .black
+        label.isHidden = true
+        
+        return label
+    }()
+    
     init(timerViewModel: TimerViewModel, pickerViewMoel: PickerViewModel) {
         self.timerViewModel = timerViewModel
         self.pickerViewModel = pickerViewMoel
@@ -37,12 +55,15 @@ final class TimerViewController: UIViewController {
         view.backgroundColor = .white
         configureUI()
         configureNavigationBar()
+        configureButton()
         bind()
     }
     
     private func configureUI() {
         timerStackView.delegate = self
         view.addSubview(timerStackView)
+        view.addSubview(startButton)
+        view.addSubview(countdownLabel)
         
         let safeArea = view.safeAreaLayoutGuide
         let top: CGFloat = 20
@@ -50,15 +71,28 @@ final class TimerViewController: UIViewController {
         let trailing: CGFloat = -30
         
         timerStackView.translatesAutoresizingMaskIntoConstraints = false
+        startButton.translatesAutoresizingMaskIntoConstraints = false
+        countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             timerStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
             timerStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: trailing),
-            timerStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: top)
+            timerStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: top),
+            
+            startButton.topAnchor.constraint(equalTo: timerStackView.bottomAnchor, constant: top),
+            startButton.leadingAnchor.constraint(equalTo: timerStackView.leadingAnchor),
+            startButton.trailingAnchor.constraint(equalTo: timerStackView.trailingAnchor),
+
+            countdownLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            countdownLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
 
     private func configureNavigationBar() {
         navigationController?.navigationBar.topItem?.title = ""
+    }
+    
+    private func configureButton() {
+        startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
     
     private func bind() {
@@ -77,6 +111,21 @@ final class TimerViewController: UIViewController {
                 self?.timerStackView.setUpSetCountLabel(label)
             }
             .store(in: &cancellables)
+        timerViewModel.countdownLabel
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] countdown in
+                self?.countdownLabel.text = countdown
+            }
+            .store(in: &cancellables)
+    }
+    
+    @objc private func startButtonTapped() {
+        countdownLabel.isHidden = false
+        timerViewModel.countDown()
+    }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
     }
 }
 
