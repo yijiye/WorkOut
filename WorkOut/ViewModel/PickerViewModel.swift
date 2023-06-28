@@ -11,14 +11,14 @@ import Foundation
 final class PickerViewModel {
     @Published var inputLabel: String = "00:00:00"
     @Published var isMeasurable: Bool = true
-    var timerSubject = PassthroughSubject<(String, TimerType), Never>()
+    let timerSubject = PassthroughSubject<(String, TimerType), Never>()
     var type: TimerType = .workout {
         didSet {
             switch type {
             case .setCount:
                 inputLabel = "1"
             default:
-                return
+                inputLabel = "00:00:00"
             }
         }
     }
