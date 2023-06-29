@@ -50,7 +50,7 @@ final class PickerViewModel {
     }
     
     private func updateSetCount(_ numberButton: String) {
-        if isInitial {
+        if isInitial == true {
             inputLabel = ""
             inputLabel += numberButton
         } else {
@@ -129,11 +129,9 @@ final class PickerViewModel {
     }
     
     private func saveCount() {
-        var count = inputLabel
-        let trimmedInput = count.trimmingCharacters(in: CharacterSet(charactersIn: "0"))
+        let trimmedInput = inputLabel.trimmingCharacters(in: CharacterSet(charactersIn: "0"))
         
         timerSubject.send((trimmedInput, .setCount))
-        isInitial = true
     }
 }
 
@@ -150,6 +148,7 @@ extension PickerViewModel {
     }
     
     func saveLabel(_ type: TimerType) {
+        isInitial = true
         switch type {
         case .setCount:
             saveCount()

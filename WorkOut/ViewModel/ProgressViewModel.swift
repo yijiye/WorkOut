@@ -9,18 +9,24 @@ import Foundation
 import Combine
 
 final class ProgressViewModel {
+    private var timerType: TimerType = .workout
     private var timer: Cancellable?
     private var workoutTimer: Cancellable?
+    private var restTimer: Cancellable?
     
     @Published var workoutTimerLabel: String = ""
     @Published var restTimerLabel: String = ""
     @Published var setCount: String = ""
+    
+    private var defaultWorkout: String?
+    private var defaultRest: String?
     
     private let timerViewModel: TimerViewModel
     private var cancellables = Set<AnyCancellable>()
     
     let countdownLabel = PassthroughSubject<String, Never>()
     let countdownComplete = PassthroughSubject<Void, Never>()
+    let isFinished = PassthroughSubject<Void, Never>()
     
     init(timerViewModel: TimerViewModel) {
         self.timerViewModel = timerViewModel
@@ -32,12 +38,14 @@ final class ProgressViewModel {
         timerViewModel.$workoutTimerLabel
             .sink {[weak self] in
                 guard let convertTime = self?.convertToTimeInterval($0) else { return }
+                self?.defaultWorkout = convertTime
                 self?.workoutTimerLabel = convertTime
             }
             .store(in: &cancellables)
         timerViewModel.$restTimerLabel
             .sink {[weak self] in
                 guard let convertTime = self?.convertToTimeInterval($0) else { return }
+                self?.defaultRest = convertTime
                 self?.restTimerLabel = convertTime
             }
             .store(in: &cancellables)
@@ -59,7 +67,7 @@ final class ProgressViewModel {
         return convertTime
     }
     
-    private func updateTimerLabel(_ timerLabel: String) -> String? {
+    private func updateTimerLabel(_ timerLabel: String, _ timer: Cancellable?) -> String? {
         let timeComponents = timerLabel.split(separator: ":")
         
         var hours = 0
@@ -85,7 +93,9 @@ final class ProgressViewModel {
             minutes = 59
             seconds = 59
         } else {
-            workoutTimer?.cancel()
+            isFinished.send()
+            checkTimerType()
+            timer?.cancel()
         }
         
         if hours > 0 {
@@ -93,6 +103,61 @@ final class ProgressViewModel {
         } else {
             return String(format: "%02d:%02d", minutes, seconds)
         }
+    }
+    
+    private func checkTimerType() {
+        switch timerType {
+        case .workout:
+            guard let defaultRest else { return }
+            restTimerLabel = defaultRest
+            timerType = .rest
+            startRestTimer()
+        case .rest:
+            guard let defaultWorkout else { return }
+            workoutTimerLabel = defaultWorkout
+            timerType = .workout
+            checkFinalSet()
+        case .setCount:
+            return
+        }
+    }
+    
+    private func checkFinalSet() {
+        if setCount != "0" {
+            guard let count = Int(setCount) else { return }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.startWorkoutTimer(count)
+            }
+        }
+    }
+    
+    private func startWorkoutTimer(_ count: Int) {
+        var leftCount = count
+        leftCount -= 1
+        setCount = String(leftCount)
+        
+        workoutTimer = Timer.publish(every: 1.0, on: .main, in: .default)
+            .autoconnect()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self,
+                      let workoutTimerLabel = self.updateTimerLabel(self.workoutTimerLabel, workoutTimer) else { return }
+                
+                self.workoutTimerLabel = workoutTimerLabel
+            }
+    }
+    
+    private func startRestTimer() {
+        restTimer = Timer.publish(every: 1.0, on: .main, in: .default)
+            .autoconnect()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self,
+                      let restTimerLabel = self.updateTimerLabel(self.restTimerLabel, restTimer) else { return }
+                
+                self.restTimerLabel = restTimerLabel
+            }
     }
 }
 
@@ -122,15 +187,8 @@ extension ProgressViewModel {
         countdownLabel.send(String(count))
     }
     
-    func startWorkoutTimer() {
-        workoutTimer = Timer.publish(every: 1.0, on: .main, in: .default)
-            .autoconnect()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self = self,
-                      let workoutTimer = self.updateTimerLabel(self.workoutTimerLabel) else { return }
-                
-                self.workoutTimerLabel = workoutTimer
-            }
+    func start() {
+        guard var count = Int(setCount) else { return }
+        startWorkoutTimer(count)
     }
 }

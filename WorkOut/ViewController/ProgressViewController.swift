@@ -119,7 +119,7 @@ final class ProgressViewController: UIViewController {
                 self?.countdownLabel.isHidden = true
                 self?.timerLabel.isHidden = false
                 self?.countStackView.isHidden = false
-                self?.viewModel.startWorkoutTimer()
+                self?.viewModel.start()
             }
             .store(in: &cancellables)
         
@@ -134,6 +134,28 @@ final class ProgressViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.countLabel.text = $0
+            }
+            .store(in: &cancellables)
+        
+        viewModel.isFinished
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.bindRestTimer()
+                
+                if self?.timerLabel.textColor == .black {
+                    self?.timerLabel.textColor = .systemGreen
+                } else if self?.timerLabel.textColor == .systemGreen {
+                    self?.timerLabel.textColor = .black
+                }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func bindRestTimer() {
+        viewModel.$restTimerLabel
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.timerLabel.text = $0
             }
             .store(in: &cancellables)
     }
