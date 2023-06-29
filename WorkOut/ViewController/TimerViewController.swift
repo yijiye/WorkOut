@@ -12,6 +12,7 @@ final class TimerViewController: UIViewController {
     
     private let timerViewModel: TimerViewModel
     private let pickerViewModel: PickerViewModel
+    private let progressViewModel: ProgressViewModel
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,9 +31,10 @@ final class TimerViewController: UIViewController {
         return button
     }()
     
-    init(timerViewModel: TimerViewModel, pickerViewMoel: PickerViewModel) {
+    init(timerViewModel: TimerViewModel, pickerViewMoel: PickerViewModel, progressViewModel: ProgressViewModel) {
         self.timerViewModel = timerViewModel
         self.pickerViewModel = pickerViewMoel
+        self.progressViewModel = progressViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -102,7 +104,6 @@ final class TimerViewController: UIViewController {
     }
     
     @objc private func startButtonTapped() {
-        let progressViewModel = ProgressViewModel()
         let progressViewController = ProgressViewController(viewModel: progressViewModel)
         progressViewController.modalPresentationStyle = .fullScreen
         present(progressViewController, animated: true)

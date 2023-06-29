@@ -13,6 +13,43 @@ final class ProgressViewController: UIViewController {
     private let viewModel: ProgressViewModel
     private var cancellables = Set<AnyCancellable>()
     
+    private let countStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        stackView.isHidden = true
+        
+        return stackView
+    }()
+    
+    private let countTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.textColor = .black
+        label.text = "남은 세트 :"
+        
+        return label
+    }()
+    
+    private let countLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        label.textColor = .black
+        
+        return label
+    }()
+    
+    private let timerLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 50, weight: .bold)
+        label.textColor = .black
+        label.isHidden = true
+        
+        return label
+    }()
+    
     private let countdownLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 100, weight: .bold)
@@ -44,12 +81,25 @@ final class ProgressViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+        view.addSubview(countStackView)
+        countStackView.addArrangedSubview(countTitleLabel)
+        countStackView.addArrangedSubview(countLabel)
+        view.addSubview(timerLabel)
         view.addSubview(countdownLabel)
         
         let safeArea = view.safeAreaLayoutGuide
+        let top: CGFloat = 50
         
+        countStackView.translatesAutoresizingMaskIntoConstraints = false
+        timerLabel.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            countStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: top),
+            countStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            
+            timerLabel.topAnchor.constraint(equalTo: countStackView.bottomAnchor, constant: top),
+            timerLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            
             countdownLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             countdownLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
@@ -67,7 +117,22 @@ final class ProgressViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.countdownLabel.isHidden = true
-                self?.configureCircleProgress()
+                self?.timerLabel.isHidden = false
+                self?.countStackView.isHidden = false
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$workoutTimer
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.timerLabel.text = $0
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$setCount
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.countLabel.text = $0
             }
             .store(in: &cancellables)
     }

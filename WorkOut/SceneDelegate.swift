@@ -19,8 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let workoutViewModel = WorkoutViewModel()
         let pickerViewModel = PickerViewModel()
         let timerViewModel = TimerViewModel(pickerViewModel: pickerViewModel)
+        let progressViewModel = ProgressViewModel(timerViewModel: timerViewModel)
        
-        let navigationController = UINavigationController(rootViewController: CalendarViewController(calendarViewModel: calendarViewModel, workoutViewModel: workoutViewModel, timerViewModel: timerViewModel, pickerViewModel: pickerViewModel))
+        let navigationController = UINavigationController(rootViewController: CalendarViewController(calendarViewModel: calendarViewModel, workoutViewModel: workoutViewModel, timerViewModel: timerViewModel, pickerViewModel: pickerViewModel, progressViewModel: progressViewModel))
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window

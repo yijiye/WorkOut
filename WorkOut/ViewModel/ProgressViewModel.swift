@@ -10,8 +10,60 @@ import Combine
 
 final class ProgressViewModel {
     private var timer: Cancellable?
+    
+    @Published var workoutTimer: String = "00:00:00"
+    @Published var restTimer: String = "00:00:00"
+    @Published var setCount: String = "1"
+    
+    private let timerViewModel: TimerViewModel
+    private var cancellables = Set<AnyCancellable>()
+    
     let countdownLabel = PassthroughSubject<String, Never>()
     let countdownComplete = PassthroughSubject<Void, Never>()
+    
+    init(timerViewModel: TimerViewModel) {
+        self.timerViewModel = timerViewModel
+        
+        bind()
+    }
+    
+    private func bind() {
+        timerViewModel.$workoutTimerLabel
+            .sink {[weak self] in
+                guard let convertTime = self?.convertToTimeInterval($0) else { return }
+                self?.workoutTimer = convertTime
+            }
+            .store(in: &cancellables)
+        timerViewModel.$restTimerLabel
+            .sink {[weak self] in
+                guard let convertTime = self?.convertToTimeInterval($0) else { return }
+                self?.restTimer = convertTime
+            }
+            .store(in: &cancellables)
+        timerViewModel.$setCountLabel
+            .assign(to: \.setCount, on: self)
+            .store(in: &cancellables)
+    }
+    
+    private func convertToTimeInterval(_ time: String) -> String {
+        var convertTime = time
+        let components = convertTime.components(separatedBy: ":")
+        
+        let hours = components[0]
+        
+        if hours == "00" {
+            convertTime = String(convertTime.dropFirst(3))
+        }
+        
+        return convertTime
+    }
+    
+    deinit {
+        timer?.cancel()
+    }
+}
+
+extension ProgressViewModel {
     
     func countDown() {
         var count = 3
@@ -34,9 +86,5 @@ final class ProgressViewModel {
             }
         
         countdownLabel.send(String(count))
-    }
-    
-    deinit {
-        timer?.cancel()
     }
 }

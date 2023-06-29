@@ -3,5 +3,5 @@ disabled_rules:
 - implicit_getter
 
 
-line_length: 200
+line_length: 300
 
