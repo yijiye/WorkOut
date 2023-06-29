@@ -23,6 +23,8 @@ final class PickerViewModel {
         }
     }
     
+    private var isInitial: Bool = true
+    
     private func update(_ numberButton: String) {
         switch type {
         case .setCount:
@@ -48,7 +50,7 @@ final class PickerViewModel {
     }
     
     private func updateSetCount(_ numberButton: String) {
-        if inputLabel == NumberPad.one.description {
+        if isInitial {
             inputLabel = ""
             inputLabel += numberButton
         } else {
@@ -75,6 +77,7 @@ final class PickerViewModel {
         switch type {
         case .setCount:
             inputLabel = "1"
+            isInitial = true
         default:
             inputLabel = "00:00:00"
         }
@@ -126,7 +129,11 @@ final class PickerViewModel {
     }
     
     private func saveCount() {
-        timerSubject.send((inputLabel, .setCount))
+        var count = inputLabel
+        let trimmedInput = count.trimmingCharacters(in: CharacterSet(charactersIn: "0"))
+        
+        timerSubject.send((trimmedInput, .setCount))
+        isInitial = true
     }
 }
 
@@ -138,6 +145,7 @@ extension PickerViewModel {
             delete(numberButton)
         } else if isMeasurable == true {
             update(numberButton)
+            isInitial = false
         }
     }
     
