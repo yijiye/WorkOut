@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 final class ProgressViewModel {
-    private var timerType: TimerType = .workout
     private var timer: Cancellable?
     private var workoutTimer: Cancellable?
     private var restTimer: Cancellable?
     
+    @Published var timerType: TimerType = .workout
     @Published var workoutTimerLabel: String = ""
     @Published var restTimerLabel: String = ""
     @Published var setCount: String = ""
@@ -188,7 +188,7 @@ extension ProgressViewModel {
     }
     
     func start() {
-        guard var count = Int(setCount) else { return }
+        guard let count = Int(setCount) else { return }
         startWorkoutTimer(count)
     }
 }

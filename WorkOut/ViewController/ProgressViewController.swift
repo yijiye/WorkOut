@@ -140,22 +140,26 @@ final class ProgressViewController: UIViewController {
         viewModel.isFinished
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.bindRestTimer()
-                
-                if self?.timerLabel.textColor == .black {
-                    self?.timerLabel.textColor = .systemGreen
-                } else if self?.timerLabel.textColor == .systemGreen {
-                    self?.timerLabel.textColor = .black
-                }
+                self?.bindTimerLabel()
             }
             .store(in: &cancellables)
     }
-
-    private func bindRestTimer() {
-        viewModel.$restTimerLabel
+    
+    private func bindTimerLabel() {
+        viewModel.$workoutTimerLabel
+            .combineLatest(viewModel.$restTimerLabel, viewModel.$timerType)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.timerLabel.text = $0
+            .sink { [weak self] workoutTimerLabel, restTimerLabel, timerType in
+                switch timerType {
+                case .workout:
+                    self?.timerLabel.textColor = .black
+                    self?.timerLabel.text = workoutTimerLabel
+                case .rest:
+                    self?.timerLabel.textColor = .systemGreen
+                    self?.timerLabel.text = restTimerLabel
+                case .setCount:
+                    return
+                }
             }
             .store(in: &cancellables)
     }
