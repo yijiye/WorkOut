@@ -119,10 +119,11 @@ final class ProgressViewController: UIViewController {
                 self?.countdownLabel.isHidden = true
                 self?.timerLabel.isHidden = false
                 self?.countStackView.isHidden = false
+                self?.viewModel.startWorkoutTimer()
             }
             .store(in: &cancellables)
         
-        viewModel.$workoutTimer
+        viewModel.$workoutTimerLabel
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.timerLabel.text = $0
