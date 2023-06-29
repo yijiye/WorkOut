@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FB3B8D982A4C7F5D00029294 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3B8D972A4C7F5D00029294 /* ProgressViewController.swift */; };
-		FB3B8D9B2A4C7F7F00029294 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3B8D9A2A4C7F7F00029294 /* ProgressView.swift */; };
 		FB3B8D9D2A4C863500029294 /* ProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB3B8D9C2A4C863500029294 /* ProgressViewModel.swift */; };
 		FB40F0B82A43135900C03672 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0B72A43135900C03672 /* AppDelegate.swift */; };
 		FB40F0BA2A43135900C03672 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB40F0B92A43135900C03672 /* SceneDelegate.swift */; };
@@ -44,7 +43,6 @@
 
 /* Begin PBXFileReference section */
 		FB3B8D972A4C7F5D00029294 /* ProgressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
-		FB3B8D9A2A4C7F7F00029294 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		FB3B8D9C2A4C863500029294 /* ProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViewModel.swift; sourceTree = "<group>"; };
 		FB40F0B42A43135900C03672 /* WorkOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB40F0B72A43135900C03672 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -92,14 +90,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FB3B8D992A4C7F6A00029294 /* ProgressView */ = {
-			isa = PBXGroup;
-			children = (
-				FB3B8D9A2A4C7F7F00029294 /* ProgressView.swift */,
-			);
-			path = ProgressView;
-			sourceTree = "<group>";
-		};
 		FB40F0AB2A43135900C03672 = {
 			isa = PBXGroup;
 			children = (
@@ -160,7 +150,6 @@
 				FB40F0EF2A4963C200C03672 /* CalendarView */,
 				FB40F0F02A4963D500C03672 /* WorkoutView */,
 				FB5E6D1C2A4A663C00766FCC /* TimerView */,
-				FB3B8D992A4C7F6A00029294 /* ProgressView */,
 				FB5E6D2C2A4AAD3F00766FCC /* PickerView */,
 				FB40F0E42A4949A300C03672 /* Helper */,
 			);
@@ -347,7 +336,6 @@
 				FB40F0BA2A43135900C03672 /* SceneDelegate.swift in Sources */,
 				FB40F0EA2A49592500C03672 /* CircleButtonCell.swift in Sources */,
 				FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */,
-				FB3B8D9B2A4C7F7F00029294 /* ProgressView.swift in Sources */,
 				FB40F0D42A432D8500C03672 /* Weekday.swift in Sources */,
 				FB5E6D202A4A715800766FCC /* PickerViewControlller.swift in Sources */,
 				FB5E6D1B2A4A61D500766FCC /* PickerViewModel.swift in Sources */,

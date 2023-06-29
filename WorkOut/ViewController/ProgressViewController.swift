@@ -163,20 +163,4 @@ final class ProgressViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-    
-    private func configureCircleProgress() {
-        let circularProgress = ProgressView(frame: CGRect(x: 10.0, y: 30.0, width: 100.0, height: 100.0))
-        circularProgress.progressColor = UIColor(red: 52.0/255.0, green: 141.0/255.0, blue: 252.0/255.0, alpha: 1.0)
-        circularProgress.trackColor = UIColor(red: 52.0/255.0, green: 141.0/255.0, blue: 252.0/255.0, alpha: 0.6)
-        circularProgress.tag = 101
-        circularProgress.center = self.view.center
-        self.view.addSubview(circularProgress)
-        
-        self.perform(#selector(animateProgress), with: nil, afterDelay: 0.3)
-    }
-    
-    @objc private func animateProgress() {
-        guard let circleProgress = view.viewWithTag(101) as? ProgressView else { return }
-        circleProgress.setProgressWithAnimation(value: 0.8)
-    }
 }

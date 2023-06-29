@@ -65,7 +65,7 @@ final class PickerViewModel {
         
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
-
+    
     private func checkTime(_ time: String) {
         let zeroCount = time.filter { String($0) == NumberPad.zero.description }.count
         if zeroCount == 1 {
@@ -129,7 +129,11 @@ final class PickerViewModel {
     }
     
     private func saveCount() {
-        let trimmedInput = inputLabel.trimmingCharacters(in: CharacterSet(charactersIn: "0"))
+        let trimmedInput = inputLabel.reduce("", { result, character in
+            if result.isEmpty && character == "0" { return result }
+            
+            return result + String(character)
+        })
         
         timerSubject.send((trimmedInput, .setCount))
     }
