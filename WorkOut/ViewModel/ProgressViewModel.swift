@@ -9,25 +9,26 @@ import Foundation
 import Combine
 
 final class ProgressViewModel {
-    private var timer: Cancellable?
-    private var workoutTimer: Cancellable?
-    private var restTimer: Cancellable?
-    
     @Published var timerType: TimerType = .workout
     @Published var workoutTimerLabel: String = ""
     @Published var restTimerLabel: String = ""
     @Published var setCount: String = ""
     
-    private var defaultWorkout: String?
-    private var defaultRest: String?
-    private var pausedTime: String?
-    
-    private let timerViewModel: TimerViewModel
-    private var cancellables = Set<AnyCancellable>()
-    
     let countdownLabel = PassthroughSubject<String, Never>()
     let countdownComplete = PassthroughSubject<Void, Never>()
     let isFinished = PassthroughSubject<Void, Never>()
+    
+    private var timer: Cancellable?
+    private var workoutTimer: Cancellable?
+    private var restTimer: Cancellable?
+    
+    private var defaultWorkout: String?
+    private var defaultRest: String?
+    private var pausedTime: String?
+    private var isRestTimerPaused: Bool = false
+    
+    private let timerViewModel: TimerViewModel
+    private var cancellables = Set<AnyCancellable>()
     
     init(timerViewModel: TimerViewModel) {
         self.timerViewModel = timerViewModel
@@ -93,6 +94,9 @@ final class ProgressViewModel {
                 guard let self = self,
                       let restTimerLabel = self.updateTimerLabel(self.restTimerLabel, restTimer) else { return }
                 
+                if isRestTimerPaused {
+                   return
+                }
                 self.restTimerLabel = restTimerLabel
             }
     }
@@ -209,6 +213,7 @@ extension ProgressViewModel {
         default:
             restTimer?.cancel()
             pausedTime = restTimerLabel
+            isRestTimerPaused = true
         }
     }
     
@@ -224,6 +229,8 @@ extension ProgressViewModel {
             guard let pausedTime = pausedTime else { return }
             
             restTimerLabel = pausedTime
+            isRestTimerPaused = false
+            startRestTimer()
         }
     }
 }
