@@ -10,8 +10,15 @@ import Combine
 
 final class ProgressViewController: UIViewController {
     
+    enum PlayMode {
+        case pause
+        case resume
+    }
+    
     private let viewModel: ProgressViewModel
     private var cancellables = Set<AnyCancellable>()
+    
+    private var playMode: PlayMode = .pause
     
     private let countStackView: UIStackView = {
         let stackView = UIStackView()
@@ -58,6 +65,36 @@ final class ProgressViewController: UIViewController {
         return label
     }()
     
+    private let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.spacing = 100
+        stackView.isHidden = true
+        
+        return stackView
+    }()
+    
+    private let pauseButton: UIButton = {
+        let button = UIButton()
+        let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold)
+        let buttonImage = UIImage(systemName: "pause.fill", withConfiguration: configuration)
+        button.setImage(buttonImage, for: .normal)
+        button.tintColor = .systemBlue
+        
+        return button
+    }()
+    
+    private let stopButton: UIButton = {
+        let button = UIButton()
+        let title = "종료"
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        
+        return button
+    }()
+    
     init(viewModel: ProgressViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -72,6 +109,7 @@ final class ProgressViewController: UIViewController {
         
         configureUI()
         bind()
+        addButtonAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,24 +119,35 @@ final class ProgressViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+        
         view.addSubview(countStackView)
         countStackView.addArrangedSubview(countTitleLabel)
         countStackView.addArrangedSubview(countLabel)
+        
         view.addSubview(timerLabel)
+        view.addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(pauseButton)
+        buttonStackView.addArrangedSubview(stopButton)
+        
         view.addSubview(countdownLabel)
         
         let safeArea = view.safeAreaLayoutGuide
         let top: CGFloat = 50
+        let buttonTop: CGFloat = -200
         
         countStackView.translatesAutoresizingMaskIntoConstraints = false
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
         countdownLabel.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             countStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: top),
             countStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
             timerLabel.topAnchor.constraint(equalTo: countStackView.bottomAnchor, constant: top),
             timerLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            
+            buttonStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: buttonTop),
+            buttonStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             
             countdownLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             countdownLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
@@ -116,9 +165,7 @@ final class ProgressViewController: UIViewController {
         viewModel.countdownComplete
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
-                self?.countdownLabel.isHidden = true
-                self?.timerLabel.isHidden = false
-                self?.countStackView.isHidden = false
+                self?.checkUIHidden()
                 self?.viewModel.start()
             }
             .store(in: &cancellables)
@@ -162,5 +209,54 @@ final class ProgressViewController: UIViewController {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    private func checkUIHidden() {
+        countdownLabel.isHidden = true
+        timerLabel.isHidden = false
+        countStackView.isHidden = false
+        buttonStackView.isHidden = false
+    }
+    
+    private func addButtonAction() {
+        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
+        stopButton.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
+    }
+}
+
+extension ProgressViewController {
+    @objc private func pauseButtonTapped() {
+        switch playMode {
+        case .pause:
+            let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold)
+            let buttonImage = UIImage(systemName: "play.fill", withConfiguration: configuration)
+            pauseButton.setImage(buttonImage, for: .normal)
+            viewModel.pause()
+            playMode = .resume
+        case .resume:
+            let configuration = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold)
+            let buttonImage = UIImage(systemName: "pause.fill", withConfiguration: configuration)
+            pauseButton.setImage(buttonImage, for: .normal)
+            viewModel.resume()
+            playMode = .pause
+        }
+    }
+    
+    @objc private func stopButtonTapped() {
+        viewModel.stop()
+        showAlert()
+    }
+    
+    private func showAlert() {
+        let title = "운동을 종료합니다."
+        let message = "타이머 화면으로 이동합니다."
+        let okTitle = "OK"
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: okTitle, style: .default) { [weak self] _ in
+            self?.dismiss(animated: true)
+        }
+        
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 }

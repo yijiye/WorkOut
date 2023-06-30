@@ -20,6 +20,7 @@ final class ProgressViewModel {
     
     private var defaultWorkout: String?
     private var defaultRest: String?
+    private var pausedTime: String?
     
     private let timerViewModel: TimerViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -67,6 +68,35 @@ final class ProgressViewModel {
         return convertTime
     }
     
+    private func startWorkoutTimer(_ count: Int) {
+        var leftCount = count
+        leftCount -= 1
+        setCount = String(leftCount)
+        
+        workoutTimer = Timer.publish(every: 1.0, on: .main, in: .default)
+            .autoconnect()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self,
+                      let workoutTimerLabel = self.updateTimerLabel(self.workoutTimerLabel, workoutTimer) else { return }
+                
+                self.workoutTimerLabel = workoutTimerLabel
+            }
+        
+    }
+    
+    private func startRestTimer() {
+        restTimer = Timer.publish(every: 1.0, on: .main, in: .default)
+            .autoconnect()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                guard let self = self,
+                      let restTimerLabel = self.updateTimerLabel(self.restTimerLabel, restTimer) else { return }
+                
+                self.restTimerLabel = restTimerLabel
+            }
+    }
+    
     private func updateTimerLabel(_ timerLabel: String, _ timer: Cancellable?) -> String? {
         let timeComponents = timerLabel.split(separator: ":")
         
@@ -112,13 +142,11 @@ final class ProgressViewModel {
             restTimerLabel = defaultRest
             timerType = .rest
             startRestTimer()
-        case .rest:
+        default:
             guard let defaultWorkout else { return }
             workoutTimerLabel = defaultWorkout
             timerType = .workout
             checkFinalSet()
-        case .setCount:
-            return
         }
     }
     
@@ -130,34 +158,6 @@ final class ProgressViewModel {
                 self?.startWorkoutTimer(count)
             }
         }
-    }
-    
-    private func startWorkoutTimer(_ count: Int) {
-        var leftCount = count
-        leftCount -= 1
-        setCount = String(leftCount)
-        
-        workoutTimer = Timer.publish(every: 1.0, on: .main, in: .default)
-            .autoconnect()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self = self,
-                      let workoutTimerLabel = self.updateTimerLabel(self.workoutTimerLabel, workoutTimer) else { return }
-                
-                self.workoutTimerLabel = workoutTimerLabel
-            }
-    }
-    
-    private func startRestTimer() {
-        restTimer = Timer.publish(every: 1.0, on: .main, in: .default)
-            .autoconnect()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                guard let self = self,
-                      let restTimerLabel = self.updateTimerLabel(self.restTimerLabel, restTimer) else { return }
-                
-                self.restTimerLabel = restTimerLabel
-            }
     }
 }
 
@@ -190,5 +190,40 @@ extension ProgressViewModel {
     func start() {
         guard let count = Int(setCount) else { return }
         startWorkoutTimer(count)
+    }
+    
+    func stop() {
+        switch timerType {
+        case .workout:
+            workoutTimer?.cancel()
+        default:
+            restTimer?.cancel()
+        }
+    }
+    
+    func pause() {
+        switch timerType {
+        case .workout:
+            workoutTimer?.cancel()
+            pausedTime = workoutTimerLabel
+        default:
+            restTimer?.cancel()
+            pausedTime = restTimerLabel
+        }
+    }
+    
+    func resume() {
+        switch timerType {
+        case .workout:
+            guard let count = Int(setCount),
+                  let pausedTime = pausedTime else { return }
+            
+            workoutTimerLabel = pausedTime
+            startWorkoutTimer((count+1))
+        default:
+            guard let pausedTime = pausedTime else { return }
+            
+            restTimerLabel = pausedTime
+        }
     }
 }
