@@ -149,8 +149,8 @@ final class PickerViewControlller: UIViewController {
     }
     
     private func showAlert() {
-        let title = "😰 \n너무 긴 운동시간은 몸에 해로워요! "
-        let message = "타이머를 설정할 수 있는 범위를 벗어났습니다."
+        let title = "시간 오류"
+        let message = "타이머를 설정할 수 있는 범위를 벗어났습니다. 😰"
         let okTitle = "OK"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: okTitle, style: .default)

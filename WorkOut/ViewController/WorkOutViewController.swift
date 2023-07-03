@@ -9,22 +9,15 @@ import UIKit
 
 final class WorkoutViewController: UIViewController {
     
-    private let viewModel: WorkoutViewModel
-    private let timerViewModel: TimerViewModel
-    private let pickerViewModel: PickerViewModel
-    private let progressViewModel: ProgressViewModel
-    
+    private let workoutViewModel: WorkoutViewModel
     private lazy var workoutCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         
         return collectionView
     }()
     
-    init(viewModel: WorkoutViewModel, timerViewModel: TimerViewModel, pickerViewModel: PickerViewModel, progressViewModel: ProgressViewModel) {
-        self.viewModel = viewModel
-        self.timerViewModel = timerViewModel
-        self.pickerViewModel = pickerViewModel
-        self.progressViewModel = progressViewModel
+    init(workoutViewModel: WorkoutViewModel) {
+        self.workoutViewModel = workoutViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,13 +70,13 @@ final class WorkoutViewController: UIViewController {
 
 extension WorkoutViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.sortedWorkoutDictionary.count
+        workoutViewModel.sortedWorkoutDictionary.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CircleButtonCell.identifier, for: indexPath) as? CircleButtonCell else { return UICollectionViewCell() }
         
-        let workout = viewModel.sortedWorkoutDictionary[indexPath.item]
+        let workout = workoutViewModel.sortedWorkoutDictionary[indexPath.item]
         cell.configureCell(with: workout.key, title: workout.value)
         
         return cell
@@ -102,7 +95,9 @@ extension WorkoutViewController: UICollectionViewDataSource {
 
 extension WorkoutViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let timerViewController = TimerViewController(timerViewModel: timerViewModel, pickerViewMoel: pickerViewModel, progressViewModel: progressViewModel)
+        let pickerViewModel = PickerViewModel()
+        let timerViewModel = TimerViewModel(pickerViewModel: pickerViewModel)
+        let timerViewController = TimerViewController(timerViewModel: timerViewModel, pickerViewMoel: pickerViewModel)
         self.navigationController?.pushViewController(timerViewController, animated: true)
     }
 }
