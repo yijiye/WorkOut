@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import AudioToolbox
 
 final class ProgressViewController: UIViewController {
     
@@ -188,6 +189,8 @@ final class ProgressViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.bindTimerLabel()
+                AudioServicesPlaySystemSound(1304)
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             }
             .store(in: &cancellables)
     }

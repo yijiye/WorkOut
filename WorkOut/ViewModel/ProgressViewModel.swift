@@ -128,7 +128,9 @@ final class ProgressViewModel {
             seconds = 59
         } else {
             isFinished.send()
-            checkTimerType()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.checkTimerType()
+            }
             timer?.cancel()
         }
         
@@ -158,7 +160,7 @@ final class ProgressViewModel {
         if setCount != "0" {
             guard let count = Int(setCount) else { return }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 self?.startWorkoutTimer(count)
             }
         }
