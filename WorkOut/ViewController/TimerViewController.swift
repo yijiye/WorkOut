@@ -102,7 +102,7 @@ final class TimerViewController: UIViewController {
     }
     
     @objc private func startButtonTapped() {
-        let progressViewModel = ProgressViewModel(timerViewModel: timerViewModel)
+        let progressViewModel = ProgressViewModel(timerViewModel: timerViewModel, workoutPart: timerViewModel.workoutPart)
         let progressViewController = ProgressViewController(viewModel: progressViewModel)
         progressViewController.modalPresentationStyle = .fullScreen
         present(progressViewController, animated: true)

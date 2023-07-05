@@ -247,19 +247,9 @@ extension ProgressViewController {
     
     @objc private func stopButtonTapped() {
         viewModel.stop()
-        showAlert()
-    }
-    
-    private func showAlert() {
-        let title = "운동을 종료합니다."
-        let message = "타이머 화면으로 이동합니다."
-        let okTitle = "OK"
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: okTitle, style: .default) { [weak self] _ in
-            self?.dismiss(animated: true)
-        }
-        
-        alert.addAction(okAction)
-        present(alert, animated: true)
+        let popupViewModel = PopupViewModel(workoutPart: viewModel.workoutPart)
+        let popupViewController = PopupViewController(popupViewModel: popupViewModel)
+        popupViewController.modalPresentationStyle = .overFullScreen
+        present(popupViewController, animated: true)
     }
 }

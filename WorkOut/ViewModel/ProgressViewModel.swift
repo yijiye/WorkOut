@@ -17,7 +17,8 @@ final class ProgressViewModel {
     let countdownLabel = PassthroughSubject<String, Never>()
     let countdownComplete = PassthroughSubject<Void, Never>()
     let isFinished = PassthroughSubject<Void, Never>()
-    
+   
+    let workoutPart: String
     private var timer: Cancellable?
     private var workoutTimer: Cancellable?
     private var restTimer: Cancellable?
@@ -30,8 +31,9 @@ final class ProgressViewModel {
     private let timerViewModel: TimerViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    init(timerViewModel: TimerViewModel) {
+    init(timerViewModel: TimerViewModel, workoutPart: String) {
         self.timerViewModel = timerViewModel
+        self.workoutPart = workoutPart
         
         bind()
     }

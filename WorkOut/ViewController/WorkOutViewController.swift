@@ -96,7 +96,8 @@ extension WorkoutViewController: UICollectionViewDataSource {
 extension WorkoutViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let pickerViewModel = PickerViewModel()
-        let timerViewModel = TimerViewModel(pickerViewModel: pickerViewModel)
+        let workout = workoutViewModel.sortedWorkoutDictionary[indexPath.item]
+        let timerViewModel = TimerViewModel(pickerViewModel: pickerViewModel, workoutPart: workout.value)
         let timerViewController = TimerViewController(timerViewModel: timerViewModel, pickerViewMoel: pickerViewModel)
         self.navigationController?.pushViewController(timerViewController, animated: true)
     }

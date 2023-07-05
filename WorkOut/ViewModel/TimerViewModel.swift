@@ -14,10 +14,12 @@ final class TimerViewModel {
     @Published var setCountLabel: String = "1"
    
     private let pickerViewModel: PickerViewModel
+    let workoutPart: String
     private var cancellables = Set<AnyCancellable>()
   
-    init(pickerViewModel: PickerViewModel) {
+    init(pickerViewModel: PickerViewModel, workoutPart: String) {
         self.pickerViewModel = pickerViewModel
+        self.workoutPart = workoutPart
         
         bind()
     }
