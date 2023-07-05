@@ -15,6 +15,13 @@ final class CalendarView: UIView {
     private let viewModel: CalendarViewModel
     private var cancellables = Set<AnyCancellable>()
     
+    private let monthStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        
+        return stackView
+    }()
+    
     private let monthLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -22,6 +29,12 @@ final class CalendarView: UIView {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
     }()
     
     private let calendarStackView: UIStackView = {
@@ -59,18 +72,20 @@ final class CalendarView: UIView {
     
     private func configureUI() {
         backgroundColor = .white
-        addSubview(monthLabel)
+        addSubview(monthStackView)
+        monthStackView.addArrangedSubview(monthLabel)
+        monthStackView.addArrangedSubview(weatherImageView)
         addSubview(calendarStackView)
         calendarStackView.addArrangedSubview(weekDayStackView)
         calendarStackView.addArrangedSubview(calendarCollectionView)
         
-        monthLabel.translatesAutoresizingMaskIntoConstraints = false
+        monthStackView.translatesAutoresizingMaskIntoConstraints = false
         calendarStackView.translatesAutoresizingMaskIntoConstraints = false
        
         NSLayoutConstraint.activate([
-            monthLabel.topAnchor.constraint(equalTo: topAnchor),
-            monthLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            monthLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            monthStackView.topAnchor.constraint(equalTo: topAnchor),
+            monthStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            monthStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100),
             
             calendarStackView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 50),
             calendarStackView.leadingAnchor.constraint(equalTo: monthLabel.leadingAnchor),
