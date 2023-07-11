@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class CalendarViewController: UIViewController {
     
     private let calendarViewModel: CalendarViewModel
+    private let locationManager = CLLocationManager()
     
     private lazy var calendarView: CalendarView = {
         let calendarView = CalendarView(viewModel: calendarViewModel, frame: .zero)
@@ -30,9 +32,16 @@ final class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
         
         configureUI()
         configureNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,5 +91,18 @@ extension CalendarViewController: CalendarViewDataSource {
         cell.updateUI(by: cellDate.date, isContainedInMonth: cellDate.isContainedInMonth)
         
         return cell
+    }
+}
+
+extension CalendarViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let longitude = locations.first?.coordinate.longitude,
+              let latitude = locations.first?.coordinate.latitude else { return }
+        
+        calendarViewModel.fetchWeatherAPI(latitude: latitude, longitude: longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }

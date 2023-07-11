@@ -47,7 +47,7 @@ extension WeatherEndpoint {
     }
     
     var key: String {
-        return "3d36b14687e157861edfe9ef31f3b6fd"
+        return "7e185f4fc778f3fa4ee921f520693440"
     }
     
     func createURL() -> URL? {
@@ -72,4 +72,3 @@ extension WeatherEndpoint {
         }
     }
 }
-

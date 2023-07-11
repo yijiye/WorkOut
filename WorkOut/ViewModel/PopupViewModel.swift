@@ -13,4 +13,3 @@ final class PopupViewModel {
         self.workoutPart = workoutPart
     }
 }
-

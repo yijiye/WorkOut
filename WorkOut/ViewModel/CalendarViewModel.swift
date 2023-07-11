@@ -9,7 +9,12 @@ import Foundation
 import Combine
 
 final class CalendarViewModel {
+    
+    private let networkManager = NetworkManager()
+    private var cancellables = Set<AnyCancellable>()
+    
     let monthSubject = PassthroughSubject<Date, Never>()
+    let imageDataSubject = PassthroughSubject<Data, Never>()
     
     typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
     
@@ -44,5 +49,41 @@ final class CalendarViewModel {
               let month: Date = calculateDate(from: IndexPath(item: (Int(page) * 42) + 15, section: 0))?.date else { return }
         
         monthSubject.send(month)
+    }
+    
+    func fetchWeatherAPI(latitude: Double, longitude: Double) {
+        let latitude = String(describing: latitude)
+        let longitude = String(describing: longitude)
+        let weatherEndpoint = WeatherEndpoint.weatherInformation(latitude: latitude, longitude: longitude)
+        
+        networkManager.fetchJSON(weatherEndpoint as WeatherEndpoint)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    print("oops got an JSON error \(error.localizedDescription)")
+                case .finished:
+                    print("JSON Request completed successfully")
+                }
+            } receiveValue: { [weak self] (result: WeatherInformation) in
+                self?.fetchImage(result.weather[0].icon)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func fetchImage(_ icon: String) {
+        let weatherEndpoint = WeatherEndpoint.weatherIcon(icon: icon)
+        
+        networkManager.fetchImage(weatherEndpoint)
+            .sink { completion in
+                switch completion {
+                case .failure(let error):
+                    print("oops got an Image error \(error.localizedDescription)")
+                case .finished:
+                    print("Image Request completed successfully")
+                }
+            } receiveValue: { [weak self] result in
+                self?.imageDataSubject.send(result)
+            }
+            .store(in: &cancellables)
     }
 }

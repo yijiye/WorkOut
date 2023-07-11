@@ -6,7 +6,9 @@
 //
 
 enum NetworkError: Error {
-   case invalidURL
-   case httpResponse
-   case invalidJSON(_ error: String)
+    case invalidURL
+    case httpResponse
+    case invalidJSON(_ error: String)
+    case statusCode(code: Int)
+    case unknown
 }

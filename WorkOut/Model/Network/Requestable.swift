@@ -8,5 +8,5 @@
 import Combine
 
 protocol Requestable {
-    func request<T: Decodable>(_ request: WeatherEndpoint) -> AnyPublisher<T, NetworkError>
+    func fetchJSON<T: Decodable>(_ request: WeatherEndpoint) -> AnyPublisher<T, NetworkError>
 }

@@ -13,7 +13,7 @@ struct WeatherInformation: Decodable {
     let visibility: Int
     let wind: Wind
     let clouds: Clouds
-    let date: Double
+    let date: Int
     let system: System
     let timezone, id: Int
     let name: String
@@ -29,12 +29,12 @@ struct WeatherInformation: Decodable {
 
 // MARK: - Coord
 struct Coord: Decodable {
-    let longitude: Double
     let latitude: Double
+    let longitude: Double
     
     private enum CodingKeys: String, CodingKey {
-        case longitude = "lon"
         case latitude = "lat"
+        case longitude = "lon"
     }
 }
 
@@ -68,12 +68,10 @@ struct Main: Decodable {
 struct Wind: Decodable {
     let speed: Double
     let degrees: Int
-    let gust: Double
     
     private enum CodingKeys: String, CodingKey {
         case speed
         case degrees = "deg"
-        case gust
     }
 }
 

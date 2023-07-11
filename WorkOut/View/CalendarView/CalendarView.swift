@@ -15,13 +15,6 @@ final class CalendarView: UIView {
     private let viewModel: CalendarViewModel
     private var cancellables = Set<AnyCancellable>()
     
-    private let monthStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        
-        return stackView
-    }()
-    
     private let monthLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -72,24 +65,27 @@ final class CalendarView: UIView {
     
     private func configureUI() {
         backgroundColor = .white
-        addSubview(monthStackView)
-        monthStackView.addArrangedSubview(monthLabel)
-        monthStackView.addArrangedSubview(weatherImageView)
+        addSubview(monthLabel)
+        addSubview(weatherImageView)
+    
         addSubview(calendarStackView)
         calendarStackView.addArrangedSubview(weekDayStackView)
         calendarStackView.addArrangedSubview(calendarCollectionView)
         
-        monthStackView.translatesAutoresizingMaskIntoConstraints = false
+        monthLabel.translatesAutoresizingMaskIntoConstraints = false
+        weatherImageView.translatesAutoresizingMaskIntoConstraints = false
         calendarStackView.translatesAutoresizingMaskIntoConstraints = false
-       
         NSLayoutConstraint.activate([
-            monthStackView.topAnchor.constraint(equalTo: topAnchor),
-            monthStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            monthStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -100),
+            monthLabel.topAnchor.constraint(equalTo: topAnchor),
+            monthLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            
+            weatherImageView.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 10),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor),
+            weatherImageView.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
             calendarStackView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 50),
             calendarStackView.leadingAnchor.constraint(equalTo: monthLabel.leadingAnchor),
-            calendarStackView.trailingAnchor.constraint(equalTo: monthLabel.trailingAnchor),
+            calendarStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             calendarStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
@@ -109,6 +105,13 @@ final class CalendarView: UIView {
         viewModel.monthSubject
             .sink { [weak self] date in
                 self?.monthLabel.text = date.year + "." + date.month
+            }
+            .store(in: &cancellables)
+        viewModel.imageDataSubject
+            .receive(on: DispatchQueue.main)
+            .sink { data in
+                guard let iconImage = UIImage(data: data) else { return }
+                self.weatherImageView.image = iconImage
             }
             .store(in: &cancellables)
     }
