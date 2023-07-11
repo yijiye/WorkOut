@@ -46,6 +46,7 @@
 		FBE0DEA62A552438004A3A03 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEA52A552438004A3A03 /* NetworkError.swift */; };
 		FBE0DEA82A5524B9004A3A03 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEA72A5524B9004A3A03 /* NetworkManager.swift */; };
 		FBE0DEAA2A553886004A3A03 /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEA92A553886004A3A03 /* WeatherInformation.swift */; };
+		FBE0DEAD2A5E1C91004A3A03 /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */; };
 		FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +93,7 @@
 		FBE0DEA52A552438004A3A03 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		FBE0DEA72A5524B9004A3A03 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FBE0DEA92A553886004A3A03 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
+		FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
 		FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,13 +153,10 @@
 		FB40F0D22A432D7A00C03672 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FB40F0D72A440FD500C03672 /* extension + Date.swift */,
 				FBE0DEA02A5519C3004A3A03 /* Network */,
 				FBE0DEAB2A5538A0004A3A03 /* JSON */,
-				FB40F0D32A432D8500C03672 /* Weekday.swift */,
-				FB40F0D72A440FD500C03672 /* extension + Date.swift */,
-				FB40F0EB2A495E7500C03672 /* Body.swift */,
-				FB5E6D2A2A4AAA1200766FCC /* NumberPad.swift */,
-				FB5E6D2F2A4AE18D00766FCC /* TimerType.swift */,
+				FBE0DEAE2A5E1E24004A3A03 /* Enum */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -265,6 +264,18 @@
 				FBE0DEA92A553886004A3A03 /* WeatherInformation.swift */,
 			);
 			path = JSON;
+			sourceTree = "<group>";
+		};
+		FBE0DEAE2A5E1E24004A3A03 /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				FB40F0D32A432D8500C03672 /* Weekday.swift */,
+				FB40F0EB2A495E7500C03672 /* Body.swift */,
+				FB5E6D2A2A4AAA1200766FCC /* NumberPad.swift */,
+				FB5E6D2F2A4AE18D00766FCC /* TimerType.swift */,
+				FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +393,7 @@
 				FB40F0EA2A49592500C03672 /* CircleButtonCell.swift in Sources */,
 				FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */,
 				FB40F0D42A432D8500C03672 /* Weekday.swift in Sources */,
+				FBE0DEAD2A5E1C91004A3A03 /* Emoji.swift in Sources */,
 				FB5E6D202A4A715800766FCC /* PickerViewControlller.swift in Sources */,
 				FB5E6D1B2A4A61D500766FCC /* PickerViewModel.swift in Sources */,
 				FBE0DEA82A5524B9004A3A03 /* NetworkManager.swift in Sources */,

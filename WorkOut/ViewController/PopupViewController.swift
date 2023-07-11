@@ -61,7 +61,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel1Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle("😢", for: .normal)
+        button.setTitle(Emoji.bad.description, for: .normal)
 
         return button
     }()
@@ -69,7 +69,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel2Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle("😞", for: .normal)
+        button.setTitle(Emoji.notBad.description, for: .normal)
         
         return button
     }()
@@ -77,7 +77,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel3Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle("🙂", for: .normal)
+        button.setTitle(Emoji.good.description, for: .normal)
         
         return button
     }()
@@ -85,7 +85,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel4Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle("😆", for: .normal)
+        button.setTitle(Emoji.veryGood.description, for: .normal)
         
         return button
     }()
@@ -93,7 +93,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel5Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle("😎", for: .normal)
+        button.setTitle(Emoji.Excellent.description, for: .normal)
         
         return button
     }()
