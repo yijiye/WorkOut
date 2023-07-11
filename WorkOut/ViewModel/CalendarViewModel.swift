@@ -10,16 +10,16 @@ import Combine
 
 final class CalendarViewModel {
     
+    typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
+    
     private let networkManager = NetworkManager()
     private var cancellables = Set<AnyCancellable>()
     
     let monthSubject = PassthroughSubject<Date, Never>()
     let imageDataSubject = PassthroughSubject<Data, Never>()
-    
-    typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
-    
-    private var indexPathDictionay: [Date: Set<IndexPath>] = [:]
+
     let totalCalendarItems = 12 * 10 * 42
+    private var indexPathDictionay: [Date: Set<IndexPath>] = [:]
     lazy var todayIndexPath = IndexPath(item: totalCalendarItems / 2, section: 0)
     
     func calculateDate(from indexPath: IndexPath) -> CalendarDay? {

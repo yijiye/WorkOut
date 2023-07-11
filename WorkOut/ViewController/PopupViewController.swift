@@ -20,9 +20,18 @@ final class PopupViewController: UIViewController {
         return view
     }()
     
+    private let descriptionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        
+        return stackView
+    }()
+    
     private lazy var partLabel: UILabel = {
         let label = UILabel()
-        let text = "운동부위 : \(viewModel.workoutPart) "
+        let text = "오늘의 운동: \(viewModel.workoutPart) "
         label.text = text
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.textColor = .black
@@ -102,6 +111,16 @@ final class PopupViewController: UIViewController {
         return textView
     }()
     
+    private let saveButton: UIButton = {
+        let button = UIButton()
+        let title = "저장"
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .title3)
+        
+        return button
+    }()
+    
     init(popupViewModel: PopupViewModel) {
         self.viewModel = popupViewModel
         super.init(nibName: nil, bundle: nil)
@@ -121,48 +140,45 @@ final class PopupViewController: UIViewController {
     
     private func configureUI() {
         view.addSubview(mainView)
-        mainView.addSubview(partLabel)
-        mainView.addSubview(selectEmojiLabel)
-        mainView.addSubview(emojiStackView)
+        mainView.addSubview(descriptionStackView)
+        descriptionStackView.addArrangedSubview(partLabel)
+        descriptionStackView.addArrangedSubview(selectEmojiLabel)
+        descriptionStackView.addArrangedSubview(emojiStackView)
         emojiStackView.addArrangedSubview(emojiLevel1Button)
         emojiStackView.addArrangedSubview(emojiLevel2Button)
         emojiStackView.addArrangedSubview(emojiLevel3Button)
         emojiStackView.addArrangedSubview(emojiLevel4Button)
         emojiStackView.addArrangedSubview(emojiLevel5Button)
         mainView.addSubview(textView)
+        mainView.addSubview(saveButton)
         
         let safeArea = view.safeAreaLayoutGuide
         let width: CGFloat = 0.8
-        let height: CGFloat = 1.3
+        let height: CGFloat = 1.5
         let top: CGFloat = 20
         
         mainView.translatesAutoresizingMaskIntoConstraints = false
-        partLabel.translatesAutoresizingMaskIntoConstraints = false
-        selectEmojiLabel.translatesAutoresizingMaskIntoConstraints = false
-        emojiStackView.translatesAutoresizingMaskIntoConstraints = false
+        descriptionStackView.translatesAutoresizingMaskIntoConstraints = false
         textView.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             mainView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             mainView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: width),
             mainView.heightAnchor.constraint(equalTo: mainView.widthAnchor, multiplier: height),
             
-            partLabel.topAnchor.constraint(equalTo: mainView.topAnchor, constant: top),
-            partLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+            descriptionStackView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: top),
+            descriptionStackView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
             
-            selectEmojiLabel.topAnchor.constraint(equalTo: partLabel.bottomAnchor, constant: top),
-            selectEmojiLabel.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
-            
-            emojiStackView.topAnchor.constraint(equalTo: selectEmojiLabel.bottomAnchor, constant: top),
-            emojiStackView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
-            
-            textView.topAnchor.constraint(equalTo: emojiStackView.bottomAnchor, constant: top),
+            textView.topAnchor.constraint(equalTo: descriptionStackView.bottomAnchor, constant: top),
             textView.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
             textView.widthAnchor.constraint(equalTo: mainView.widthAnchor, multiplier: width),
-            textView.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: top * -1)
+            
+            saveButton.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: top),
+            saveButton.centerXAnchor.constraint(equalTo: mainView.centerXAnchor),
+            saveButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: top * -1)
             ])
     }
-    
 }
 
 extension PopupViewController: UITextViewDelegate {

@@ -67,10 +67,12 @@ final class CalendarView: UIView {
         backgroundColor = .white
         addSubview(monthLabel)
         addSubview(weatherImageView)
-    
         addSubview(calendarStackView)
         calendarStackView.addArrangedSubview(weekDayStackView)
         calendarStackView.addArrangedSubview(calendarCollectionView)
+        
+        let leading: CGFloat = 10
+        let top: CGFloat = 50
         
         monthLabel.translatesAutoresizingMaskIntoConstraints = false
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,11 +81,11 @@ final class CalendarView: UIView {
             monthLabel.topAnchor.constraint(equalTo: topAnchor),
             monthLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             
-            weatherImageView.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: 10),
+            weatherImageView.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: leading),
             weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor),
             weatherImageView.centerYAnchor.constraint(equalTo: monthLabel.centerYAnchor),
             
-            calendarStackView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: 50),
+            calendarStackView.topAnchor.constraint(equalTo: monthLabel.bottomAnchor, constant: top),
             calendarStackView.leadingAnchor.constraint(equalTo: monthLabel.leadingAnchor),
             calendarStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             calendarStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
