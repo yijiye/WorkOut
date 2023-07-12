@@ -95,7 +95,7 @@ final class PopupViewController: UIViewController {
     private let emojiLevel5Button: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .systemFont(ofSize: 30)
-        button.setTitle(Emoji.Excellent.description, for: .normal)
+        button.setTitle(Emoji.excellent.description, for: .normal)
         
         return button
     }()

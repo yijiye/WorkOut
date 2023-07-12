@@ -6,7 +6,7 @@
 //
 
 enum Emoji: CustomStringConvertible {
-    case bad, notBad, good, veryGood, Excellent
+    case bad, notBad, good, veryGood, excellent
     
     var description: String {
         switch self {
@@ -18,7 +18,7 @@ enum Emoji: CustomStringConvertible {
             return "🙂"
         case .veryGood:
             return "😆"
-        case .Excellent:
+        case .excellent:
             return "😎"
         }
     }
