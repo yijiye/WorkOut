@@ -47,6 +47,11 @@
 		FBE0DEA82A5524B9004A3A03 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEA72A5524B9004A3A03 /* NetworkManager.swift */; };
 		FBE0DEAA2A553886004A3A03 /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEA92A553886004A3A03 /* WeatherInformation.swift */; };
 		FBE0DEAD2A5E1C91004A3A03 /* Emoji.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */; };
+		FBE0DEB22A5E1EAB004A3A03 /* TodayWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEB12A5E1EAB004A3A03 /* TodayWorkout.swift */; };
+		FBE0DEBD2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBB2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift */; };
+		FBE0DEBE2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBC2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift */; };
+		FBE0DEC02A5E23C7004A3A03 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBF2A5E23C7004A3A03 /* CoreDataManager.swift */; };
+		FBE0DEC22A5E2D98004A3A03 /* CalendarCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */; };
 		FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +99,11 @@
 		FBE0DEA72A5524B9004A3A03 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		FBE0DEA92A553886004A3A03 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
 		FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emoji.swift; sourceTree = "<group>"; };
+		FBE0DEB12A5E1EAB004A3A03 /* TodayWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayWorkout.swift; sourceTree = "<group>"; };
+		FBE0DEBB2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		FBE0DEBC2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		FBE0DEBF2A5E23C7004A3A03 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellViewModel.swift; sourceTree = "<group>"; };
 		FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,6 +121,9 @@
 		FB40F0AB2A43135900C03672 = {
 			isa = PBXGroup;
 			children = (
+				FBE0DEBB2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift */,
+				FBE0DEBC2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift */,
+				FB40F0C02A43135900C03672 /* WorkOut.xcdatamodeld */,
 				FB40F0D12A43294F00C03672 /* .swiftlint.yml */,
 				FB40F0B62A43135900C03672 /* WorkOut */,
 				FB40F0B52A43135900C03672 /* Products */,
@@ -136,7 +149,6 @@
 				FB40F0B92A43135900C03672 /* SceneDelegate.swift */,
 				FB40F0CE2A4316F400C03672 /* Resources */,
 				FB40F0C82A43135B00C03672 /* Info.plist */,
-				FB40F0C02A43135900C03672 /* WorkOut.xcdatamodeld */,
 			);
 			path = WorkOut;
 			sourceTree = "<group>";
@@ -153,6 +165,8 @@
 		FB40F0D22A432D7A00C03672 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FBE0DEBF2A5E23C7004A3A03 /* CoreDataManager.swift */,
+				FBE0DEB12A5E1EAB004A3A03 /* TodayWorkout.swift */,
 				FB40F0D72A440FD500C03672 /* extension + Date.swift */,
 				FBE0DEA02A5519C3004A3A03 /* Network */,
 				FBE0DEAB2A5538A0004A3A03 /* JSON */,
@@ -190,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				FB40F0E22A49461300C03672 /* CalendarViewModel.swift */,
+				FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */,
 				FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */,
 				FB5E6D312A4AEB8300766FCC /* TimerViewModel.swift */,
 				FB5E6D1A2A4A61D500766FCC /* PickerViewModel.swift */,
@@ -373,6 +388,7 @@
 				FB5E6D262A4A91BA00766FCC /* NumberButton.swift in Sources */,
 				FB5E6D302A4AE18D00766FCC /* TimerType.swift in Sources */,
 				FB40F0E82A49546500C03672 /* WorkoutViewController.swift in Sources */,
+				FBE0DEBE2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift in Sources */,
 				FB5E6D292A4AA8B700766FCC /* NumberStackView.swift in Sources */,
 				FB5E6D2E2A4AAD8800766FCC /* NumberButtonDelegate.swift in Sources */,
 				FB40F0EC2A495E7500C03672 /* Body.swift in Sources */,
@@ -384,11 +400,14 @@
 				FBE0DEA22A5519DA004A3A03 /* HTTPMethod.swift in Sources */,
 				FB40F0B82A43135900C03672 /* AppDelegate.swift in Sources */,
 				FB5E6D1E2A4A666E00766FCC /* TimerStackView.swift in Sources */,
+				FBE0DEC22A5E2D98004A3A03 /* CalendarCellViewModel.swift in Sources */,
 				FBE0DEA42A5523E6004A3A03 /* Requestable.swift in Sources */,
 				FB40F0E62A4949B300C03672 /* CalendarViewDataSource.swift in Sources */,
+				FBE0DEB22A5E1EAB004A3A03 /* TodayWorkout.swift in Sources */,
 				FB959B112A498E41003D661F /* HeaderView.swift in Sources */,
 				FBE0DE9D2A53BDCE004A3A03 /* PopupViewModel.swift in Sources */,
 				FBE0DE9B2A53B534004A3A03 /* PopupViewController.swift in Sources */,
+				FBE0DEC02A5E23C7004A3A03 /* CoreDataManager.swift in Sources */,
 				FB40F0BA2A43135900C03672 /* SceneDelegate.swift in Sources */,
 				FB40F0EA2A49592500C03672 /* CircleButtonCell.swift in Sources */,
 				FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */,
@@ -406,6 +425,7 @@
 				FBE0DEAA2A553886004A3A03 /* WeatherInformation.swift in Sources */,
 				FB40F0D82A440FD500C03672 /* extension + Date.swift in Sources */,
 				FBE0DEA62A552438004A3A03 /* NetworkError.swift in Sources */,
+				FBE0DEBD2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift in Sources */,
 				FB5E6D242A4A905000766FCC /* NumberPadStackView.swift in Sources */,
 				FB40F0DF2A442C2100C03672 /* CalendarCell.swift in Sources */,
 			);

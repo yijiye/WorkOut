@@ -10,6 +10,8 @@ import UIKit
 final class PopupViewController: UIViewController {
     
     private let viewModel: PopupViewModel
+    private var emoji: String?
+    private var isButtonTapped: Bool = false
     
     private let mainView: UIView = {
         let view = UIView()
@@ -136,6 +138,8 @@ final class PopupViewController: UIViewController {
         textView.delegate = self
         
         configureUI()
+        addEmojiButtonAction()
+        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
     }
     
     private func configureUI() {
@@ -179,8 +183,17 @@ final class PopupViewController: UIViewController {
             saveButton.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: top * -1)
             ])
     }
+    
+    private func addEmojiButtonAction() {
+        emojiLevel1Button.addTarget(self, action: #selector(emojiButtonTapped), for: .touchUpInside)
+        emojiLevel2Button.addTarget(self, action: #selector(emojiButtonTapped), for: .touchUpInside)
+        emojiLevel3Button.addTarget(self, action: #selector(emojiButtonTapped), for: .touchUpInside)
+        emojiLevel4Button.addTarget(self, action: #selector(emojiButtonTapped), for: .touchUpInside)
+        emojiLevel5Button.addTarget(self, action: #selector(emojiButtonTapped), for: .touchUpInside)
+    }
 }
 
+// MARK: UITextViewDelegate
 extension PopupViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
@@ -194,5 +207,27 @@ extension PopupViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor.black
         }
+    }
+}
+
+// MARK: EmojiButtonAction
+extension PopupViewController {
+    @objc private func emojiButtonTapped(_ sendar: UIButton) {
+        if isButtonTapped == false {
+            self.emoji = sendar.currentTitle
+            isButtonTapped = true
+        } else { return }
+    }
+    
+    @objc private func saveButtonTapped(_ sendar: UIButton) {
+        guard let emoji = self.emoji else { return }
+        var todayWorkout = TodayWorkout(satisfaction: emoji, memo: textView.text)
+
+        if textView.textColor == UIColor.lightGray {
+            todayWorkout = TodayWorkout(satisfaction: emoji, memo: nil)
+        }
+        
+        viewModel.saveData(todayWorkout)
+        navigationController?.popToRootViewController(animated: true)
     }
 }
