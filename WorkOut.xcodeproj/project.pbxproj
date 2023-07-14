@@ -51,7 +51,7 @@
 		FBE0DEBD2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBB2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift */; };
 		FBE0DEBE2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBC2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift */; };
 		FBE0DEC02A5E23C7004A3A03 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEBF2A5E23C7004A3A03 /* CoreDataManager.swift */; };
-		FBE0DEC22A5E2D98004A3A03 /* CalendarCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */; };
+		FBE0DEC52A5E5DCF004A3A03 /* dataSavable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE0DEC42A5E5DCF004A3A03 /* dataSavable.swift */; };
 		FBE8F66E2A4970CF007D1367 /* WorkoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,7 +103,7 @@
 		FBE0DEBB2A5E2317004A3A03 /* WorkoutEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		FBE0DEBC2A5E2317004A3A03 /* WorkoutEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkoutEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		FBE0DEBF2A5E23C7004A3A03 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellViewModel.swift; sourceTree = "<group>"; };
+		FBE0DEC42A5E5DCF004A3A03 /* dataSavable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataSavable.swift; sourceTree = "<group>"; };
 		FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -204,12 +204,12 @@
 			isa = PBXGroup;
 			children = (
 				FB40F0E22A49461300C03672 /* CalendarViewModel.swift */,
-				FBE0DEC12A5E2D98004A3A03 /* CalendarCellViewModel.swift */,
 				FBE8F66D2A4970CF007D1367 /* WorkoutViewModel.swift */,
 				FB5E6D312A4AEB8300766FCC /* TimerViewModel.swift */,
 				FB5E6D1A2A4A61D500766FCC /* PickerViewModel.swift */,
 				FB3B8D9C2A4C863500029294 /* ProgressViewModel.swift */,
 				FBE0DE9C2A53BDCE004A3A03 /* PopupViewModel.swift */,
+				FBE0DEC32A5E5CDC004A3A03 /* Helper */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -217,9 +217,9 @@
 		FB40F0E42A4949A300C03672 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				FB5E6D2D2A4AAD8800766FCC /* NumberButtonDelegate.swift */,
 				FB40F0E52A4949B300C03672 /* CalendarViewDataSource.swift */,
 				FB5E6D212A4A749500766FCC /* TapGestureRecognizable.swift */,
-				FB5E6D2D2A4AAD8800766FCC /* NumberButtonDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -291,6 +291,14 @@
 				FBE0DEAC2A5E1C91004A3A03 /* Emoji.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		FBE0DEC32A5E5CDC004A3A03 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				FBE0DEC42A5E5DCF004A3A03 /* dataSavable.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,11 +404,11 @@
 				FBE0DE9F2A5519A8004A3A03 /* WeatherEndpoint.swift in Sources */,
 				FB40F0BC2A43135900C03672 /* CalendarViewController.swift in Sources */,
 				FB3B8D982A4C7F5D00029294 /* ProgressViewController.swift in Sources */,
+				FBE0DEC52A5E5DCF004A3A03 /* dataSavable.swift in Sources */,
 				FB5E6D2B2A4AAA1200766FCC /* NumberPad.swift in Sources */,
 				FBE0DEA22A5519DA004A3A03 /* HTTPMethod.swift in Sources */,
 				FB40F0B82A43135900C03672 /* AppDelegate.swift in Sources */,
 				FB5E6D1E2A4A666E00766FCC /* TimerStackView.swift in Sources */,
-				FBE0DEC22A5E2D98004A3A03 /* CalendarCellViewModel.swift in Sources */,
 				FBE0DEA42A5523E6004A3A03 /* Requestable.swift in Sources */,
 				FB40F0E62A4949B300C03672 /* CalendarViewDataSource.swift in Sources */,
 				FBE0DEB22A5E1EAB004A3A03 /* TodayWorkout.swift in Sources */,

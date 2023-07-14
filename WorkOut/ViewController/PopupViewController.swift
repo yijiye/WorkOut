@@ -228,6 +228,17 @@ extension PopupViewController {
         }
         
         viewModel.saveData(todayWorkout)
-        navigationController?.popToRootViewController(animated: true)
+        moveToMainViewController()
+    }
+    
+    private func moveToMainViewController() {
+        dismiss(animated: true)
+        if let progressViewController = self.presentingViewController as? ProgressViewController {
+            progressViewController.dismiss(animated: true)
+            if let navigationController = progressViewController.presentingViewController as? UINavigationController,
+               let timerViewController = navigationController.topViewController as? TimerViewController {
+                timerViewController.navigationController?.popToRootViewController(animated: true)
+            }
+        }
     }
 }

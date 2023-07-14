@@ -107,10 +107,6 @@ final class TimerViewController: UIViewController {
         progressViewController.modalPresentationStyle = .fullScreen
         present(progressViewController, animated: true)
     }
-    
-    deinit {
-        cancellables.forEach { $0.cancel() }
-    }
 }
 
 extension TimerViewController: TapGestureReconizable {

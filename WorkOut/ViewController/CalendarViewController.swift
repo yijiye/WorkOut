@@ -39,11 +39,7 @@ final class CalendarViewController: UIViewController {
         configureUI()
         configureNavigationBar()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         calendarView.scrollToItem()
@@ -88,7 +84,8 @@ extension CalendarViewController: CalendarViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CalendarCell.identifier, for: indexPath) as? CalendarCell,
               let cellDate = cellDate else { return UICollectionViewCell() }
         
-        cell.updateUI(by: cellDate.date, isContainedInMonth: cellDate.isContainedInMonth)
+        let satisfactionEmoji = calendarViewModel.fetchEmoji()?.first?.satisfaction
+        cell.updateUI(by: cellDate.date, isContainedInMonth: cellDate.isContainedInMonth, emoji: satisfactionEmoji)
         
         return cell
     }

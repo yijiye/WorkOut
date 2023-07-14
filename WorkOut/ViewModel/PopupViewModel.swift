@@ -7,6 +7,8 @@
 
 final class PopupViewModel {
     
+    weak var delegate: DataSavable?
+    
     let workoutPart: String
     private let coreDataManager = CoreDataManager.shared
     
@@ -16,5 +18,8 @@ final class PopupViewModel {
     
     func saveData(_ data: TodayWorkout) {
         coreDataManager.create(data)
+        
+        guard let data = coreDataManager.read(by: data.id) else { return }
+        delegate?.saveSubject.send(data)
     }
 }

@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension WorkoutEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WorkoutEntity> {
@@ -22,6 +21,4 @@ extension WorkoutEntity {
 
 }
 
-extension WorkoutEntity : Identifiable {
-
-}
+extension WorkoutEntity: Identifiable { }

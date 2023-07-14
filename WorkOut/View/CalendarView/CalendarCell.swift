@@ -23,10 +23,10 @@ final class CalendarCell: UICollectionViewCell {
         return label
     }()
     
-    private let emojiView: UIImageView = {
-        let imageView = UIImageView()
+    private let emojiLabel: UILabel = {
+        let label = UILabel()
         
-        return imageView
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -44,24 +44,27 @@ final class CalendarCell: UICollectionViewCell {
         backgroundColor = .white
         
         stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(emojiView)
+        stackView.addArrangedSubview(emojiLabel)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        emojiView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            emojiView.widthAnchor.constraint(equalTo: emojiView.heightAnchor, multiplier: 1)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-        
     }
     
-    func updateUI(by date: Date, isContainedInMonth: Bool) {
+    func updateUI(by date: Date, isContainedInMonth: Bool, emoji: String?) {
         dateLabel.text = date.day
         dateLabel.textColor = isContainedInMonth ? .black : .gray
+        
+        if emoji == nil {
+            emojiLabel.text = ""
+        } else {
+            emojiLabel.text = emoji
+        }
+        
         contentView.backgroundColor = .white
     }
 }

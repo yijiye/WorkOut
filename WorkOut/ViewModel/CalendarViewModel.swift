@@ -8,27 +8,42 @@
 import Foundation
 import Combine
 
-final class CalendarViewModel {
+final class CalendarViewModel: DataSavable {
+    var saveSubject = PassthroughSubject<WorkoutEntity, Never>()
     
+    @Published var workoutDataList: [WorkoutEntity] = []
     typealias CalendarDay = (date: Date, isContainedInMonth: Bool)
     
     private let networkManager = NetworkManager()
+    private let coreDataManager = CoreDataManager.shared
     private var cancellables = Set<AnyCancellable>()
     
     let monthSubject = PassthroughSubject<Date, Never>()
     let imageDataSubject = PassthroughSubject<Data, Never>()
-
+    
     let totalCalendarItems = 12 * 10 * 42
     private var indexPathDictionay: [Date: Set<IndexPath>] = [:]
     lazy var todayIndexPath = IndexPath(item: totalCalendarItems / 2, section: 0)
+    
+    init() {
+        bind()
+    }
+    
+    private func bind() {
+        saveSubject
+            .sink { [weak self] in
+                self?.workoutDataList.append($0)
+            }
+            .store(in: &cancellables)
+    }
     
     func calculateDate(from indexPath: IndexPath) -> CalendarDay? {
         let numberOfCellPerPage = 42
         let todayPage = todayIndexPath.item / numberOfCellPerPage
         let indexPage = indexPath.item / numberOfCellPerPage
         
-        guard let today = Date().firstDayOfTheMonth,
-              let thisMonth = today.month(by: indexPage - todayPage) else { return nil }
+        guard let firstDay = Date().firstDayOfTheMonth,
+              let thisMonth = firstDay.month(by: indexPage - todayPage) else { return nil }
         
         var firstDayOfWeek = thisMonth.weekday - 1
         firstDayOfWeek = firstDayOfWeek < 0 ? 6 : firstDayOfWeek
@@ -85,5 +100,9 @@ final class CalendarViewModel {
                 self?.imageDataSubject.send(result)
             }
             .store(in: &cancellables)
+    }
+    
+    func fetchEmoji() -> [WorkoutEntity]? {
+        coreDataManager.readAll()
     }
 }
